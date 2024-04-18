@@ -1,0 +1,66 @@
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
+    $conn = mysqli_connect('localhost', 'root', '', 'db_bacolod') or die("Connection Failed: " . mysqli_connect_error());
+
+    // Ensure no SQL injection vulnerability, consider using prepared statements
+    $first_name = mysqli_real_escape_string($conn, $_POST['first_name']);
+    $middle_name = mysqli_real_escape_string($conn, $_POST['middle_name']);
+    $last_name = mysqli_real_escape_string($conn, $_POST['last_name']);
+    $apellation = mysqli_real_escape_string($conn, $_POST['apellation']);
+    $place_of_birth = mysqli_real_escape_string($conn, $_POST['place_of_birth']);
+    $date_of_birth = mysqli_real_escape_string($conn, $_POST['date_of_birth']);
+    $gender = mysqli_real_escape_string($conn, $_POST['gender']);
+    $nationality = mysqli_real_escape_string($conn, $_POST['nationality']);
+    $civil_status = mysqli_real_escape_string($conn, $_POST['civil_status']);
+    $relationship = mysqli_real_escape_string($conn, $_POST['relationship']);
+    $philhealth_id = mysqli_real_escape_string($conn, $_POST['philhealth_id']);
+    $city_municipality = mysqli_real_escape_string($conn, $_POST['city_municipality']);
+    $barangay = mysqli_real_escape_string($conn, $_POST['barangay']);
+    $residence_since = mysqli_real_escape_string($conn, $_POST['residence_since']);
+    $cellphone_number = mysqli_real_escape_string($conn, $_POST['cellphone_number']);
+    $email_address = mysqli_real_escape_string($conn, $_POST['email_address']);
+    $emergency_contact_name = mysqli_real_escape_string($conn, $_POST['emergency_contact_name']);
+    $emergency_contact_address = mysqli_real_escape_string($conn, $_POST['emergency_contact_address']);
+    $emer_relationship = mysqli_real_escape_string($conn, $_POST['emer_relationship']);
+    $emergency_contact_number = mysqli_real_escape_string($conn, $_POST['emergency_contact_number']);
+
+    // Insert into personal_information table
+    $sql_personal = "INSERT INTO personal_information 
+                     (firstname, middlename, lastname, apellation, placeofbirth, dateofbirth, gender, nationality, relationship, philhealth_id, civilstatus)
+                     VALUES ('$first_name', '$middle_name', '$last_name', '$apellation', '$place_of_birth', '$date_of_birth', '$gender', '$nationality', '$relationship', '$philhealth_id', '$civil_status')";
+    $result_personal = mysqli_query($conn, $sql_personal);
+
+    if ($result_personal) {
+        $personal_id = mysqli_insert_id($conn); // Get the auto-generated ID of the inserted record
+
+        // Insert into emergency_contacts table
+        $sql_emergency = "INSERT INTO emergency_contacts 
+                          (personal_id, emergency_contact_name, emer_relationship, emergency_contact_number, emergency_contact_address)
+                          VALUES ('$personal_id', '$emergency_contact_name', '$emer_relationship', '$emergency_contact_number', '$emergency_contact_address')";
+        $result_emergency = mysqli_query($conn, $sql_emergency);
+
+        if ($result_emergency) {
+            // Insert into contact_information table
+            $sql_contact = "INSERT INTO contact_information 
+                            (personal_id, city_municipality, barangay, residence_since, cellphone_number, email_address)
+                            VALUES ('$personal_id', '$city_municipality', '$barangay', '$residence_since', '$cellphone_number', '$email_address')";
+            $result_contact = mysqli_query($conn, $sql_contact);
+
+            if ($result_contact) {
+                // Redirect to Home.php
+                header("Location: Home.php");
+                exit(); // Ensure no further code execution after redirect
+            } else {
+                echo 'Error inserting into contact_information table: ' . mysqli_error($conn);
+            }
+        } else {
+            echo 'Error inserting into emergency_contacts table: ' . mysqli_error($conn);
+        }
+    } else {
+        echo 'Error inserting into personal_information table: ' . mysqli_error($conn);
+    }
+}
+?>

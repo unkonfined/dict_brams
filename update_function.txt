@@ -1,0 +1,96 @@
+<?php
+include("includes/top_navbar.php");
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Connect to the database
+$conn = mysqli_connect('localhost', 'root', '', 'db_bacolod') or die("Connection Failed: " . mysqli_connect_error());
+
+// Check if resident ID is provided
+if(isset($_GET['resident_id'])) {
+    $resident_id = $_GET['resident_id'];
+
+    // Fetch data using INNER JOIN with prepared statement
+    $sql = "SELECT personal_information.*, emergency_contacts.*, contact_information.*
+            FROM personal_information
+            INNER JOIN emergency_contacts ON personal_information.id = emergency_contacts.personal_id
+            INNER JOIN contact_information ON personal_information.id = contact_information.personal_id
+            WHERE personal_information.id = ?";
+
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "i", $resident_id);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+
+    // Check if data exists
+    if(mysqli_num_rows($result) > 0) {
+        // Fetch and process data as needed
+        $row = mysqli_fetch_assoc($result);
+        // Process retrieved data
+
+        // Assuming you have retrieved the necessary data, you can proceed with the update functionality
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update'])) {
+            // Process form submission
+            // Update personal_information table
+            $sql_update_personal = "UPDATE personal_information SET firstname = ?, middlename = ?, lastname = ?, 
+                                    apellation = ?, placeofbirth = ?, dateofbirth = ?, 
+                                    gender = ?, nationality = ?, relationship = ?, 
+                                    philhealth_id = ?, civilstatus = ?
+                                    WHERE id = ?";
+
+            $stmt_update_personal = mysqli_prepare($conn, $sql_update_personal);
+            mysqli_stmt_bind_param($stmt_update_personal, "sssssssssssi", $_POST['first_name'], $_POST['middle_name'], $_POST['last_name'], 
+                                    $_POST['apellation'], $_POST['place_of_birth'], $_POST['date_of_birth'], 
+                                    $_POST['gender'], $_POST['nationality'], $_POST['relationship'], 
+                                    $_POST['philhealth_id'], $_POST['civil_status'], $resident_id);
+            mysqli_stmt_execute($stmt_update_personal);
+
+            // Update contact_information table
+            $sql_update_contact = "UPDATE contact_information SET city_municipality = ?, barangay = ?, 
+                                   residence_since = ?, cellphone_number = ?, 
+                                   email_address = ?
+                                   WHERE personal_id = ?";
+
+            $stmt_update_contact = mysqli_prepare($conn, $sql_update_contact);
+            mysqli_stmt_bind_param($stmt_update_contact, "sssssi", $_POST['city_municipality'], $_POST['barangay'], 
+                                    $_POST['residence_since'], $_POST['cellphone_number'], 
+                                    $_POST['email_address'], $resident_id);
+            mysqli_stmt_execute($stmt_update_contact);
+
+            // Update emergency_contacts table
+            $sql_update_emergency = "UPDATE emergency_contacts SET emergency_contact_name = ?, 
+                                     emergency_contact_address = ?, 
+                                     emer_relationship = ?, 
+                                     emergency_contact_number = ?
+                                     WHERE personal_id = ?";
+
+            $stmt_update_emergency = mysqli_prepare($conn, $sql_update_emergency);
+            mysqli_stmt_bind_param($stmt_update_emergency, "ssssi", $_POST['emergency_contact_name'], 
+                                    $_POST['emergency_contact_address'], 
+                                    $_POST['emer_relationship'], 
+                                    $_POST['emergency_contact_number'], $resident_id);
+            mysqli_stmt_execute($stmt_update_emergency);
+
+            // Check if all updates were successful
+            if (mysqli_stmt_affected_rows($stmt_update_personal) > 0 && mysqli_stmt_affected_rows($stmt_update_contact) > 0 && mysqli_stmt_affected_rows($stmt_update_emergency) > 0) {
+                // Redirect to Home.php
+                header("Location: Home.php");
+                exit(); // Ensure no further code execution after redirect
+            } else {
+                echo 'Error updating data: ' . mysqli_error($conn);
+            }
+        }
+    } else {
+        echo "No resident found with the provided ID.";
+        exit();
+    }
+} else {
+    echo "Resident ID not provided.";
+    exit();
+}
+
+// Close connection
+mysqli_close($conn);
+?>
