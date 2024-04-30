@@ -342,11 +342,9 @@
                                     <br>
                                     This is to CERTIFY that <?php echo $row['firstname'] . ' ' . $row['lastname']; ?>, is a resident of <?php echo $row['barangay']; ?>, Bacolod City whose means of livelihood is barely enough to support the daily needs of their family and therefore considered as indigent. <br>
                                     <br>
-                                    This certification is issued upon the request of the above-named person for 
-                                    Medical Assistance
-                                    and for whatever lawful purpose/s it may serve best. <br>
+                                    This certification is issued upon the request of the above-named person for Medical Assistance and for whatever lawful purpose/s it may serve best. <br>
                                     <br>
-                                    Issued this <span id="current_date"></span> at Barangay 8, Bacolod City, Philippines. <br>
+                                    Issued this <span id="current_date"></span> at <?php echo $row['barangay']; ?>, Bacolod City, Philippines. <br>
                                     <br>
                                     <br>
                                     <br>
@@ -364,6 +362,7 @@
                                     <br>
                                     <br>
                                 </div>
+
                                 </form>
                             </div>
                         </div>
