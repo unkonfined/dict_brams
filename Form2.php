@@ -632,8 +632,13 @@
                                 </div>
                                 <div class="cold-md-2">
                                     <button classs ="btn btn-success add_member_btn">Add Member</button>
+
                                 </div>
+                                <br>
+                                <br>
+                                <input type="submit" name="submit" id="submit" class="btn btn-primary" value="Submit">
                             </div>
+
                             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
                             <script>
                                 $(document).ready(function() {
@@ -776,6 +781,7 @@
                                                 <div class="cold-md-2">
                                                     <button classs ="btn btn-danger remove_member_btn">Remove</button>
                                                 </div>
+                                                
                                             </div>');
                                 });
                                 });
