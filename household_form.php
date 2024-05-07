@@ -162,7 +162,7 @@
                     <!-- Registration form -->
                     <form action="insert_function.php" method="POST" id="combined_form">
                         <!-- Personal Information fields -->
-                        <h3 style="opacity: 0.5;">Personal Information</h3>
+                        <h3 style="opacity: 0.5;">Personal Information *</h3>
                         <!-- Attach Photo -->
                         <p>Attach Photo *</p>
                         <input type="file" id="photo" name="photo" accept="image/*">
@@ -301,8 +301,8 @@
                                     <label for="membership">Philhealth Membership *</label>
                                     <select class="form-control" id="membership" name="membership" required onchange="checkMembership()">
                                         <option value="">Select Membership</option>
-                                        <option value="Spouse">Member</option>
-                                        <option value="Parent">Dependent</option>
+                                        <option value="member">Member</option>
+                                        <option value="dependent">Dependent</option>
                                     </select>
                                 </div>
                             </div>
@@ -316,17 +316,17 @@
                              </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="education_occupation">Educational Attainment *</label>
-                                    <select class="form-control" id="education_occupation" name="education_occupation" placeholder="Select Educational Attainment"required>
-                                        <option value="Alangilan">None</option>
-                                        <option value="Alijis">Elementary Level</option>
-                                        <option value="Bata">Elementary Graduate</option>
-                                        <option value="Cabug">High School Level</option>
-                                        <option value="Estefania">High School Graduate</option>
-                                        <option value="Felisa">Vocational</option>
-                                        <option value="Granada">College Level</option>
-                                        <option value="Handumanan">College Graduate</option>
-                                        <option value="Mandalagan">Postgraduate</option>
+                                    <label for="educational_attainment">Educational Attainment *</label>
+                                    <select class="form-control" id="education_occupation" name="educational_attainment" placeholder="Select Educational Attainment"required>
+                                        <option value="none">None</option>
+                                        <option value="elementary_level">Elementary Level</option>
+                                        <option value="elementary_graduate">Elementary Graduate</option>
+                                        <option value="high_school_level">High School Level</option>
+                                        <option value="high_school_graduate">High School Graduate</option>
+                                        <option value="vocational">Vocational</option>
+                                        <option value="college_level">College Level</option>
+                                        <option value="college_graduate">College Graduate</option>
+                                        <option value="post_graduate">Postgraduate</option>
                                     </select>
                                 </div>
                             </div>
@@ -335,19 +335,19 @@
                             <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="wra">Occupation *</label>
-                                        <input type="text" class="form-control" id="wra" name="wra">
+                                        <input type="text" class="form-control" id="occupation" name="occupation">
                                     </div>
                              </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="education_occupation">Remarks Nutrition Status *</label>
-                                    <select class="form-control" id="education_occupation" name="education_occupation" placeholder="Select Educational Attainment"required>
-                                        <option value="Alangilan">None</option>
-                                        <option value="Alijis">SAM - Severe Acute Malnutrition</option>
-                                        <option value="Bata">Mam - Moderate Acute Malnutrition</option>
-                                        <option value="Cabug">ST - Stunted</option>
-                                        <option value="Estefania">UP - for updating</option>
-                                        <option value="Felisa">Transfer of Residence</option>
+                                    <label for="nutrition_status">Remarks Nutrition Status *</label>
+                                    <select class="form-control" id="nutrition_status" name="nutrition_status" placeholder="Select Nutrition Status"required>
+                                        <option value="none">None</option>
+                                        <option value="sam">SAM - Severe Acute Malnutrition</option>
+                                        <option value="mam">Mam - Moderate Acute Malnutrition</option>
+                                        <option value="st">ST - Stunted</option>
+                                        <option value="for_updating">UP - for updating</option>
+                                        <option value="transferred">Transfer of Residence</option>
                                     </select>
                                 </div>
                             </div>
@@ -394,7 +394,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="household_number">Household Number *</label>
-                                    <input type="number" class="form-control" id="household_number" name="household_numberr" required>
+                                    <input type="number" class="form-control" id="household_number" name="household_number" required>
                                 </div>
                             </div>
                         </div>
@@ -420,23 +420,23 @@
                         <h3 style="opacity: 0.5;">Social Eoconomic Status *</h3>
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="gendercheck">
+                                <div class="nhts_information">
                                     <p style="font-size: 1rem;"> </p>
-                                    <input type="radio" id="male" name="gender" value="male">
-                                    <label for="male" style="margin-right: 25px; font-size: 15px;">NHTS 4ps</label><br>
-                                    <input type="radio" id="female" name="gender" value="female">
-                                    <label for="female" style="font-size: 15px;">NHTS Non-4ps</label><br>
-                                    <input type="radio" id="female" name="gender" value="female">
-                                    <label for="female" style="font-size: 15px;">Non-NHTS</label><br><br>
+                                    <input type="radio" id="nhts_4ps" name="nhts_status" value="nhts_4ps">
+                                    <label for="nhts_4ps" style="margin-right: 25px; font-size: 15px;">NHTS 4ps</label><br>
+                                    <input type="radio" id="nhts_non4ps" name="nhts_status" value="nhts_non4ps">
+                                    <label for="nhts_non4ps" style="font-size: 15px;">NHTS Non-4ps</label><br>
+                                    <input type="radio" id="non_nhts" name="nhts_status" value="_non_nhts">
+                                    <label for="non-nhts" style="font-size: 15px;">Non-NHTS</label><br><br>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="gendercheck">
+                                <div class="ip_household_information">
                                     <p style="font-size: 1rem;"> </p>
-                                    <input type="radio" id="male" name="gender" value="male">
-                                    <label for="male" style="margin-right: 25px; font-size: 15px;">IP Household</label><br>
-                                    <input type="radio" id="female" name="gender" value="female">
-                                    <label for="female" style="font-size: 15px;">Non-IP</label><br><br>
+                                    <input type="radio" id="ip_household" name="ip_household_status" value="ip_household">
+                                    <label for="ip_household" style="margin-right: 25px; font-size: 15px;">IP Household</label><br>
+                                    <input type="radio" id="non_ip_household" name="ip_household_status" value="non_ip_household">
+                                    <label for="non_ip_household" style="font-size: 15px;">Non-IP Household</label><br><br>
 
                                 </div>
                             </div>
@@ -446,28 +446,28 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="nationality">Type of Water Source *</label>
-                                    <select class="form-control" id="nationality" name="nationality" required>
-                                        <option value="">Select Nationality</option>
-                                        <option value="filipino">Level I - Point Source</option>
-                                        <option value="american">Level II - Communal Faucet</option>
-                                        <option value="british">Level III - Individual Connection</option>
-                                        <option value="chinese">Others - For doubtful sources, open dug well, etc.</option>
+                                    <label for="water_source">Type of Water Source *</label>
+                                    <select class="form-control" id="water_source" name="water_source" required>
+                                        <option value="">Select Water Source</option>
+                                        <option value="point_source">Level I - Point Source</option>
+                                        <option value="communal_faucet">Level II - Communal Faucet</option>
+                                        <option value="individual_connection">Level III - Individual Connection</option>
+                                        <option value="other_source">Others - For doubtful sources, open dug well, etc.</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="civil_status">Type of Toilet Facility *</label>
-                                    <select class="form-control" id="civil_status" name="civil_status" required>
-                                        <option value="">Select Civil Status</option>
-                                        <option value="single">A - Pour/Flush type connection to septic tank</option>
-                                        <option value="married">B - Flush Toilet connection to septic tank and to sewage system</option>
-                                        <option value="widowed">C - Ventilated Pit (VIP) Latrine</option>
-                                        <option value="separated">D - Water-Sealed Toilet</option>
-                                        <option value="separated">E - Over Hung latrine</option>
-                                        <option value="separated">F - Open Pit Latrine</option>
-                                        <option value="separated">G - Without Toilet</option>
+                                    <label for="toilet_facility">Type of Toilet Facility *</label>
+                                    <select class="form-control" id="toilet_facility" name="toilet_facility" required>
+                                        <option value="">Select Toilet Facility</option>
+                                        <option value="pour_flash">A - Pour/Flush type connection to septic tank</option>
+                                        <option value="flush_toilet">B - Flush Toilet connection to septic tank and to sewage system</option>
+                                        <option value="ventilated_pit">C - Ventilated Pit (VIP) Latrine</option>
+                                        <option value="water_sealed">D - Water-Sealed Toilet</option>
+                                        <option value="open_hung">E - Over Hung latrine</option>
+                                        <option value="open_pit">F - Open Pit Latrine</option>
+                                        <option value="without_toilet">G - Without Toilet</option>
                                     </select>
                                 </div>
                             </div>
@@ -475,46 +475,64 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="nationality">Type of Waste Management *</label>
-                                    <select class="form-control" id="civil_status" name="civil_status" required>
-                                        <option value="">Select Civil Status</option>
-                                        <option value="single">A - Waste Segregation</option>
-                                        <option value="married">B - Backyard Composting</option>
-                                        <option value="widowed">C - Recycled/Reuse</option>
-                                        <option value="separated">D - Collected by City/Municipal Collection and Disposal System</option>
-                                        <option value="separated">E - Others (Burning/Burying)</option>
+                                    <label for="waste_management">Type of Waste Management *</label>
+                                    <select class="form-control" id="waste_management" name="waste_management" required>
+                                        <option value="">Select Waste Management</option>
+                                        <option value="waste_segregation">A - Waste Segregation</option>
+                                        <option value="backyard_composting">B - Backyard Composting</option>
+                                        <option value="recycle_reuse">C - Recycled/Reuse</option>
+                                        <option value="collected">D - Collected by City/Municipal Collection and Disposal System</option>
+                                        <option value="other_management">E - Others (Burning/Burying)</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="civil_status">With Blind Drainage *</label>
-                                    <select class="form-control" id="civil_status" name="civil_status" required>
-                                        <option value="">Yes</option>
-                                        <option value="single">No</option>
+                                    <label for="blind_drainage">With Blind Drainage *</label>
+                                    <select class="form-control" id="blind_drainage" name="blind_drainage" required>
+                                        <option value="yes_blind_drainage">Yes</option>
+                                        <option value="no_blind_drainage">No</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
+
+                        <br>
+                        <br>
+                        <h3 style="opacity: 0.5;">Business Information </h3>
+                        <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="business_name">Business Name </label>
+                                <input type="text" class="form-control" id="business_name" name="business_name">
+                            </div>
+                        </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="business_address">Business Address </label>
+                                    <input type="text" class="form-control" id="business_address" name="business_address">
+                                </div>
+                            </div>
+                        <div class="row"> 
                         <div id="show_member">
                             <div class="row">
                             <h3 style="opacity: 0.5;">Household Members</h3>
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                        <label for="last_name">Last Name *</label>
-                                        <input type="text" class="form-control" id="last_name" name="last_name" required>
+                                        <label for="hh_last_name">Last Name *</label>
+                                        <input type="text" class="form-control" id="hh_last_name" name="hh_last_name" required>
                                     </div>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                        <label for="first_name">First Name *</label>
-                                        <input type="text" class="form-control" id="first_name" name="first_name" required>
+                                        <label for="hh_first_name">First Name *</label>
+                                        <input type="text" class="form-control" id="hh_first_name" name="hh_first_name" required>
                                     </div>
                                 </div>
                                 <div class="col-md-1">
                                     <div class="form-group">
-                                        <label for="suffix">Suffix</label>
-                                        <select class="form-control" id="suffix" name="suffix">
+                                        <label for="hh_suffix">Suffix</label>
+                                        <select class="form-control" id="hh_suffix" name="hh_suffix">
                                             <option value="">Suffix</option>
                                             <option value="Sr.">Sr.</option>
                                             <option value="Jr..">Jr.</option>
@@ -532,8 +550,8 @@
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                        <label for="relationship">Relationship to HH *</label>
-                                        <select class="form-control" id="relationship" name="relationship" required onchange="checkRelationship()">
+                                        <label for="hh_relationship">Relationship to HH *</label>
+                                        <select class="form-control" id="hh_relationship" name="hh_relationship" required onchange="checkRelationship()">
                                             <option value="">Select Relationship</option>
                                             <option value="Spouse">Head</option>
                                             <option value="Spouse">Spouse</option>
@@ -547,24 +565,24 @@
                                 </div>
                                 <div class="col-md-1">
                                     <div class="form-group">
-                                        <label for="relationship">Sex *</label>
-                                        <select class="form-control" id="relationship" name="relationship" required onchange="checkRelationship()">
+                                        <label for="hh_sex">Sex *</label>
+                                        <select class="form-control" id="hh_sex" name="hh_sex" required onchange="checkRelationship()">
                                             <option value="">Select Sex</option>
-                                            <option value="Spouse">Female</option>
-                                            <option value="Spouse">Male</option>
+                                            <option value="female">Female</option>
+                                            <option value="male">Male</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-2">
                                         <div class="form-group">
-                                            <label for="date_of_birth">Date of Birth *</label>
-                                            <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" required>
+                                            <label for="hh_date_of_birth">Date of Birth *</label>
+                                            <input type="date" class="form-control" id="hh_date_of_birth" name="hh_date_of_birth" required>
                                         </div>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                        <label for="civil_status">Civil Status *</label>
-                                        <select class="form-control" id="civil_status" name="civil_status" required>
+                                        <label for="hh_civil_status">Civil Status *</label>
+                                        <select class="form-control" id="hh_civil_status" name="hh_civil_status" required>
                                             <option value="">Select Civil Status</option>
                                             <option value="single">Single</option>
                                             <option value="married">Married</option>
@@ -574,62 +592,64 @@
                                     </div>
                                 </div>
                                 <div class="col-md-2">
-                                    <div class="form-group">
+                                    <div class="hh_form-group">
                                         <label for="philhealth_id">PhilHealth ID *</label>
-                                        <input type="number" class="form-control" id="philhealth_id" name="philhealth_id" required>
+                                        <input type="number" class="form-control" id="hh_philhealth_id" name="hh_philhealth_id" required>
                                     </div>
                                 </div>
                                 <div class="col-md-1">
                                     <div class="form-group">
-                                        <label for="membership">Membership</label>
-                                        <select class="form-control" id="membership" name="membership" required onchange="checkMembership()">
-                                            <option value="">Select Membership</option>
-                                            <option value="Spouse">Member</option>
-                                            <option value="Parent">Dependent</option>
+                                        <label for="hh_membership">Membership</label>
+                                        <select class="form-control" id="hh_membership" name="hh_membership" required onchange="checkMembership()">
+                                            <option value="hh_membership">Select Membership</option>
+                                            <option value="member">Member</option>
+                                            <option value="dependent">Dependent</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                        <label for="wra">WRA </label>
-                                        <input type="date" class="form-control" id="wra" name="wra">
+                                        <label for="hh_wra">WRA </label>
+                                        <input type="date" class="form-control" id="hh_wra" name="hh_wra">
                                     </div>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                        <label for="education_occupation">Educational Attainment *</label>
-                                        <select class="form-control" id="education_occupation" name="education_occupation" placeholder="Select Educational Attainment"required>
-                                            <option value="Alangilan">None</option>
-                                            <option value="Alijis">Elementary Level</option>
-                                            <option value="Bata">Elementary Graduate</option>
-                                            <option value="Cabug">High School Level</option>
-                                            <option value="Estefania">High School Graduate</option>
-                                            <option value="Felisa">Vocational</option>
-                                            <option value="Granada">College Level</option>
-                                            <option value="Handumanan">College Graduate</option>
-                                            <option value="Mandalagan">Postgraduate</option>
+                                        <label for="hh_educational_attainment">Educational Attainment *</label>
+                                        <select class="form-control" id="hh_educational_attainment" name="hh_educational_attainment" placeholder="Select Educational Attainment"required>
+                                            <option value="none">None</option>
+                                            <option value="elementary_level">Elementary Level</option>
+                                            <option value="elementary_graduate">Elementary Graduate</option>
+                                            <option value="high_school_level">High School Level</option>
+                                            <option value="high_school_graduate">High School Graduate</option>
+                                            <option value="vocational">Vocational</option>
+                                            <option value="college_level">College Level</option>
+                                            <option value="college_graduate">College Graduate</option>
+                                            <option value="postgraduate">Postgraduate</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                        <label for="wra">Occupation *</label>
-                                        <input type="text" class="form-control" id="wra" name="wra">
+                                        <label for="hh_occupatiom">Occupation *</label>
+                                        <input type="text" class="form-control" id="hh_occupation" name="hh_occupation">
                                     </div>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                        <label for="education_occupation">Remarks *</label>
-                                        <select class="form-control" id="education_occupation" name="education_occupation" placeholder="Select Educational Attainment"required>
-                                            <option value="Alangilan">None</option>
-                                            <option value="Alijis">SAM - Severe Acute Malnutrition</option>
-                                            <option value="Bata">Mam - Moderate Acute Malnutrition</option>
-                                            <option value="Cabug">ST - Stunted</option>
-                                            <option value="Estefania">UP - for updating</option>
-                                            <option value="Felisa">Transfer of Residence</option>
+                                        <label for="weight_remarks">Remarks *</label>
+                                        <select class="form-control" id="weight_remarks" name="weight_remarksn" placeholder="Select Educational Attainment"required>
+                                            <option value="none">None</option>
+                                            <option value="sam">SAM - Severe Acute Malnutrition</option>
+                                            <option value="mam">Mam - Moderate Acute Malnutrition</option>
+                                            <option value="st">ST - Stunted</option>
+                                            <option value="for_updating">UP - for updating</option>
+                                            <option value="transferred">Transfer of Residence</option>
                                         </select>
                                     </div>
                                 </div>
+
+                                    
                                 <div class="cold-md-2">
                                     <button classs ="btn btn-success add_member_btn">Add Member</button>
 
