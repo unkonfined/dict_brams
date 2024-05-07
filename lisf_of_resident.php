@@ -46,14 +46,14 @@ if (!empty($search_query)) {
 $result = mysqli_query($conn, $sql);
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>List Of Residents</title>
   <style>
-    /* Paste the CSS code here */
-    /* Responsive styles */
     @media (min-width: 576px) {
       .container {
         max-width: 540px;
@@ -290,13 +290,12 @@ $result = mysqli_query($conn, $sql);
 <div class="topnav">
     <img src="elements/dict_logo2.png" alt="Company Logo">
     <div class="search-container">
-        <form id="searchform" method="GET"> <!-- Update action to index.php -->
+        <form id="searchform" method="GET">
             <input type="text" id="search-bar" name="search" placeholder="Search...">
             <button type="submit"><i class="fa fa-search"></i></button>
         </form>
     </div>
 </div>
-
 
 <div class="container">
   <div class="row">
@@ -304,7 +303,7 @@ $result = mysqli_query($conn, $sql);
       <div class="card">
         <div class="card-header">
           <h4>List Of Residents
-          <a href="Form.php" class="btn btn-primary float-end">Upload Information</a>
+          <a href="brgy_form.php" class="btn btn-primary float-end">Upload Information</a>
           </h4>
         </div>
         <div class="card-body">
@@ -356,5 +355,6 @@ mysqli_close($conn);
     </div>
   </div>
 </div>
+
 </body>
 </html>

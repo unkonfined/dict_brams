@@ -38,7 +38,7 @@ $purpose = isset($_GET['purpose']) ? $_GET['purpose'] : '';
 
     .menurow {
     margin-bottom: 20px;
-    width: 25%; /* Adjust the width of the menu rows */
+    width: 50%; /* Adjust the width of the menu rows */
     border: 1px solid #ccc; /* Add a border */
     border-radius: 10px; /* Add rounded corners */
     background-color: #f9f9f9; /* Add background color */
@@ -48,6 +48,7 @@ $purpose = isset($_GET['purpose']) ? $_GET['purpose'] : '';
 
 
     .menurow a {
+        font-size: x-large;
         display: block;
         text-decoration: none;
         margin: 10px auto; /* Center align menu items */
@@ -101,33 +102,55 @@ $purpose = isset($_GET['purpose']) ? $_GET['purpose'] : '';
                         </div>
                     </div>
                     <div class="menu">
-                        <?php if ($purpose === 'certofresidency'): ?>
-                            <!-- Menu for certofresidency purpose -->
-                            <div class="menurow">
-                            <a href="template1.php?resident_id=<?php echo $resident_id; ?>" target="_blank">Medical Assistance</a>
-                                <a href="template1.php?resident_id=<?php echo $resident_id; ?>" target="_blank">Education</a>
-                                <a href="template1.php?resident_id=<?php echo $resident_id; ?>" target="_blank">Banking and Financial Transactions</a>
-                                <a href="template1.php?resident_id=<?php echo $resident_id; ?>" target="_blank">Employment</a>
-                            </div>  
-                        <?php elseif ($purpose === 'certofindigency'): ?>
-                            <!-- Menu for certofindigency purpose -->
-                            <div class="menurow">
-                                <a href="template3.php?resident_id=<?php echo $resident_id; ?>" target="_blank">Cert of Indigency Template 1</a>
-                                <a href="template4.php?resident_id=<?php echo $resident_id; ?>" target="_blank">Cert of Indigency Template 2</a>
-                            </div>
-                        <?php else: ?>
-                            <!-- Default menu if no specific purpose is selected -->
-                            <div class="menurow">
-                                <a href="#">Default Menu Item 1</a>
-                                <a href="#">Default Menu Item 2</a>
-                            </div>
-                        <?php endif; ?>
+                            <?php if ($purpose === 'certofresidency'): ?>
+                                <!-- Menu for certofresidency purpose -->
+                                <div class="menurow">
+                                    <a href="cert_of_residency.php?resident_id=<?php echo $resident_id; ?>&purpose=Renewal of PWD ID" target="_blank">Renewal of PWD ID</a>
+                                    <a href="cert_of_residency.php?resident_id=<?php echo $resident_id; ?>&purpose=Renewal of Senior ID" target="_blank">Renewal of Senior ID</a>
+                                    <a href="cert_of_residency.php?resident_id=<?php echo $resident_id; ?>&purpose=Scholarship Requirement" target="_blank">Scholarship Requirement</a>
+                                </div>  
+                                <?php elseif ($purpose === 'brgyclearance'): ?>
+                                <!-- Menu for brgyclearance purpose -->
+                                <div class="menurow">
+                                    <a href="brgy_clearance.php?resident_id=<?php echo $resident_id; ?>&purpose=Loan" target="_blank">Loan</a>
+                                    <a href="brgy_clearance.php?resident_id=<?php echo $resident_id; ?>&purpose=Bank" target="_blank">Bank</a>
+                                    <a href="brgy_clearance.php?resident_id=<?php echo $resident_id; ?>&purpose=Work Immersion" target="_blank">Work Immersion</a>
+                                    <a href="brgy_clearance.php?resident_id=<?php echo $resident_id; ?>&purpose=TIN ID" target="_blank">TIN ID</a>
+                                    <a href="brgy_clearance.php?resident_id=<?php echo $resident_id; ?>&purpose=Postal ID" target="_blank">Postal ID</a>
+                                    <a href="brgy_clearance.php?resident_id=<?php echo $resident_id; ?>&purpose=Philsys ID" target="_blank">Philsys ID</a>
+                                </div>
+                                <?php elseif ($purpose === 'certofindigency'): ?>
+                                <!-- Menu for the certofindigency purpose -->
+                                <div class="menurow">
+                                    <a href="cert_of_indigency.php?resident_id=<?php echo $resident_id; ?>&purpose=Educational Assistance" target="_blank">Educational Assistance</a>
+                                    <a href="cert_of_indigency.php?resident_id=<?php echo $resident_id; ?>&purpose=School Requirement" target="_blank">School Requirement</a>
+                                    <a href="cert_of_indigency.php?resident_id=<?php echo $resident_id; ?>&purpose=Medical Assistance" target="_blank">Medical Assistance</a>
+                                    <a href="cert_of_indigency.php?resident_id=<?php echo $resident_id; ?>&purpose=Burial Assistance" target="_blank">Burial Assistance</a>
+                                    <a href="cert_of_indigency.php?resident_id=<?php echo $resident_id; ?>&purpose=Financial Assistance" target="_blank">Financial Assistance</a>
+                                </div>
+                                <?php elseif ($purpose === 'certification'): ?>
+                                <!-- Menu for the certification purpose -->
+                                <div class="menurow">
+                                    <a href="certification.php?resident_id=<?php echo $resident_id; ?>&purpose=1st Time Job Seeker" target="_blank">1st Time Job Seeker</a>
+                                    <a href="certification.php?resident_id=<?php echo $resident_id; ?>&purpose=Educational Assistance" target="_blank">Educational Assistance</a>
+                                    <a href="certification.php?resident_id=<?php echo $resident_id; ?>&purpose=Scholarship" target="_blank">Scholarship</a>
+                                    <a href="certification.php?resident_id=<?php echo $resident_id; ?>&purpose=Comelec Registraton" target="_blank">Comelec Registraton</a>
+                                    <a href="certification.php?resident_id=<?php echo $resident_id; ?>&purpose=Applying Senior Citizen ID" target="_blank">Applying Senior Citizen ID</a>
+                                    <a href="certification.php?resident_id=<?php echo $resident_id; ?>&purpose=Applying for CENECO" target="_blank">Applying for CENECO</a>
+                                </div>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<br><br>
+<br><br>
+<br><br>
+<br><br>
 
 <?php
 include("includes/footer.php");

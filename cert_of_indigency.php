@@ -3,9 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <title>Responsive Form</title> -->
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+        <?php
+        // Database connection
+        $conn = mysqli_connect('localhost', 'root', '', 'db_bacolod') or die("Connection Failed: " . mysqli_connect_error());
+
+        // Check if resident ID is provided
+        if(isset($_GET['resident_id'])) {
+            $resident_id = $_GET['resident_id'];
+
+            // Fetch data using INNER JOIN with prepared statement
+            $sql = "SELECT personal_information.*, emergency_contacts.*, contact_information.*
+                    FROM personal_information
+                    INNER JOIN emergency_contacts ON personal_information.id = emergency_contacts.personal_id
+                    INNER JOIN contact_information ON personal_information.id = contact_information.personal_id
+                    WHERE personal_information.id = ?";
+
+            $stmt = mysqli_prepare($conn, $sql);
+            mysqli_stmt_bind_param($stmt, "i", $resident_id);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+
+            // Check if data exists
+            if(mysqli_num_rows($result) > 0) {
+                // Fetch and process data as needed
+                $row = mysqli_fetch_assoc($result);
+                
+                // Calculate age from date of birth
+                $dateOfBirth = new DateTime($row['dateofbirth']);
+                $today = new DateTime();
+                $age = $today->diff($dateOfBirth)->y; // Calculating the difference in years
+            } else {
+                echo "No resident found with the provided ID.";
+                exit();
+            }
+        } else {
+            echo "Resident ID not provided.";
+            exit();
+        }
+
+        // Define the purpose text array and get the purpose from the URL parameter
+        $purposeText = array(
+            "Educational Assistance" => "Educational Assistance",
+            "School Requirement" => "School Requirement",
+            "Medical Assistance" => "Medical Assistance",
+            "Burial Assistance" => "Burial Assistance",
+            "Financial Assistance" => "Financial Assistance"
+        );
+        $purpose = isset($_GET['purpose']) ? $_GET['purpose'] : '';
+        $certText = isset($purposeText[$purpose]) ? $purposeText[$purpose] : "Educational Assistance";
+        ?>
+
     <style>
         /* Global styles */
         body {
@@ -178,10 +227,6 @@
     
 </head>
 <body>
-    <?php
-    include("includes/top_navbar.php");
-    ?>
-
                         <div class="logo">
                             <img class="left-logo" src="elements/barangay8logo.png" alt="Left Logo">
                             <div class="logo-text">
@@ -267,42 +312,57 @@
                             <br>
                             <br>
                             
-                            <h2><strong> CERTIFICATE OF RESIDENCY </strong></h2><br>
+                            <h2><strong> CERTIFICATE OF INDIGENCY </strong></h2><br>
                             <br>
                             <br>
-                            <form action="picon.php" method="POST" id="combined_form">
-                                <div class = "padform">
-                                TO WHOM IT MAY CONCERN: <br>
-                                <br>
-                                <br>
-                                This is to CERTIFY that (FIRST NAME) (LAST NAME), (AGE) years old, (GENDER), born on (BIRTH DATE), is a resident of (BARANGAY NAME) Barangay 8, Bacolod City. <br>
-                                <br>
-                                This certification is issued upon the request of the above-named person for (PURPOSE) and for whatever lawful purpose/s it may serve best. <br>
-                                <br>
-                                Issued this (DAY) of (MONTH), (YEAR) at Barangay 8, Bacolod City, Philippines. <br>
-                                <br>
-                                <br>
-                                <br>
-                                <br>
-                                <br>
-                                <div class="body4">
-                                    <strong> HON. EVELYN F. DONESA </strong><br>
-                                    Punong Barangay <br>
+                            <form method="POST" id="combined_form">
+                                <div class="padform">
+                                    TO WHOM IT MAY CONCERN: <br>
+                                    <br>
+                                    <br>
+                                    This is to CERTIFY that <?php echo $row['firstname'] . ' ' . $row['lastname']; ?> is a resident of <?php echo $row['barangay']; ?>, Barangay 8, Bacolod City whose means of livelihood is barely enough to support the daily needs of their family and therefore considered as indigent. <br>
+                                    <br>
+                                    This certification is issued upon the request of the above-named person for <?php echo $certText; ?> and for whatever lawful purpose/s it may serve best. <br>
+                                    <br>
+                                    Issued this <span id="current_date"></span> at Barangay 8, Bacolod City, Philippines. <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <div class="body4">
+                                        <strong> HON. EVELYN F. DONESA </strong><br>
+                                        Punong Barangay <br>
+                                    </div>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
                                 </div>
-                                <br>
-                                <br>
-                                <br>
-                                <br>
-                                <br>
-                                <br>
-                                <br>
-                                <button onClick="window.print()" class="btn btn-success w-25">Print</button>
-                            </form>  
+
+                                </form>
                         </div>
                     </div>  
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    // Get the current date
+    var today = new Date();
+    var day = today.getDate();
+    var month = today.toLocaleString('default', { month: 'long' });
+    var year = today.getFullYear();
+
+    // Update the current_date span with the current date
+    document.getElementById('current_date').innerHTML = day + " of " + month + ", " + year;
+</script>
+
+</body>
+</html>
 
 

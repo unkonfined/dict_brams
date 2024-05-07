@@ -84,11 +84,13 @@ if(isset($_GET['resident_id'])) {
                         <div class="menurow">
                             <!-- Modify href attribute to include resident_id -->
                             <a id="certofresidency" href="purpose_template.php?resident_id=<?php echo $resident_id; ?>&purpose=certofresidency"><img src="elements/group2.png" alt="certofresidency"></a>
-                            <a id="brgybusinessclearance" href="purpose_template.php?resident_id=<?php echo $resident_id; ?>&purpose=brgybusinessclearance"><img src="elements/group2.png" alt="brgybusinessclearance"></a>
+                            <a id="brgyclearance" href="purpose_template.php?resident_id=<?php echo $resident_id; ?>&purpose=brgyclearance"><img src="elements/group3.png" alt="brgyclearance"></a>
+                            <a id="certification" href="purpose_template.php?resident_id=<?php echo $resident_id; ?>&purpose=certification"><img src="elements/group8.png" alt="certification"></a>
                         </div>
                         <div class="menurow">
-                            <a id="certofindigency" href="purpose_template.php?resident_id=<?php echo $resident_id; ?>&purpose=certofindigency"><img src="elements/group2.png" alt="certofindigency"></a>
-                            <a id="certofindigency" href="purpose_template.php?resident_id=<?php echo $resident_id; ?>&purpose=certofindigency"><img src="elements/group2.png" alt="certofindigency"></a>
+                            <a id="certofindigency" href="purpose_template.php?resident_id=<?php echo $resident_id; ?>&purpose=certofindigency"><img src="elements/group4.png" alt="certofindigency"></a>
+                            <a href="cert_of_business_closer.php?resident_id=<?php echo $resident_id; ?>&purpose=certofbusinessscloser" target="_blank"><img src="elements/group7.png" alt="certofbusinessscloser"></a>
+
                         </div>
                     </div>
                 </div>
