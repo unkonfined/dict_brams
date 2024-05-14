@@ -3,56 +3,70 @@
 $conn = mysqli_connect('localhost', 'root', '', 'db_bacolod') or die("Connection Failed: " . mysqli_connect_error());
 
 // Check if delete request is made
-if(isset($_GET['delete_id']) && !empty($_GET['delete_id'])){
-  $delete_id = $_GET['delete_id'];
-  
-  // Begin transaction
-  mysqli_begin_transaction($conn);
+if (isset($_GET['delete_id']) && !empty($_GET['delete_id'])) {
+    $delete_id = mysqli_real_escape_string($conn, $_GET['delete_id']);
 
-  // Delete contact information
-  $delete_contact_query = "DELETE FROM contact_information WHERE personal_id = $delete_id";
-  $result_contact = mysqli_query($conn, $delete_contact_query);
+    // Begin transaction
+    mysqli_begin_transaction($conn);
 
-  // Delete emergency contacts
-  $delete_emergency_query = "DELETE FROM emergency_contacts WHERE personal_id = $delete_id";
-  $result_emergency = mysqli_query($conn, $delete_emergency_query);
+    try {
+        // Delete from household_members
+        $delete_household_members_query = "DELETE FROM household_members WHERE member_id = $delete_id";
+        $result_household_members = mysqli_query($conn, $delete_household_members_query);
+        if (!$result_household_members) {
+            throw new Exception(mysqli_error($conn));
+        }
 
-  // Delete personal information
-  $delete_personal_query = "DELETE FROM personal_information WHERE id = $delete_id";
-  $result_personal = mysqli_query($conn, $delete_personal_query);
+        // Delete from contact_information
+        $delete_contact_query = "DELETE FROM contact_information WHERE personal_id = $delete_id";
+        $result_contact = mysqli_query($conn, $delete_contact_query);
+        if (!$result_contact) {
+            throw new Exception(mysqli_error($conn));
+        }
 
-  // Check if deletion was successful
-  if($result_contact && $result_emergency && $result_personal) {
-      // Commit transaction
-      mysqli_commit($conn);
-      // Display success alert box
-      echo "<script>alert('Record deleted successfully.');</script>";
-  } else {
-      // Rollback transaction if deletion fails
-      mysqli_rollback($conn);
-      // Display error alert box
-      echo "<script>alert('Error deleting record: " . mysqli_error($conn) . "');</script>";
-  }
-}
+        // Delete from emergency_contacts
+        $delete_emergency_query = "DELETE FROM emergency_contacts WHERE personal_id = $delete_id";
+        $result_emergency = mysqli_query($conn, $delete_emergency_query);
+        if (!$result_emergency) {
+            throw new Exception(mysqli_error($conn));
+        }
 
-// Handle search query
-$search_query = isset($_GET['search']) ? $_GET['search'] : '';
-$sql = "SELECT * FROM personal_information";
-if (!empty($search_query)) {
-    $sql .= " WHERE firstname LIKE '%$search_query%' OR middlename LIKE '%$search_query%' OR lastname LIKE '%$search_query%'";
+        // Delete from personal_information
+        $delete_personal_query = "DELETE FROM personal_information WHERE id = $delete_id";
+        $result_personal = mysqli_query($conn, $delete_personal_query);
+        if (!$result_personal) {
+            throw new Exception(mysqli_error($conn));
+        }
+
+        // Commit transaction
+        mysqli_commit($conn);
+        // Display success alert box
+        echo "<script>alert('Record deleted successfully.');</script>";
+    } catch (Exception $e) {
+        // Rollback transaction if deletion fails
+        mysqli_rollback($conn);
+        // Display error alert box
+        echo "<script>alert('Error deleting record: " . $e->getMessage() . "');</script>";
+    }
 }
 
 // Query to fetch all residents
+$sql = "SELECT * FROM personal_information";
 $result = mysqli_query($conn, $sql);
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
   <title>List Of Residents</title>
+
   <style>
     @media (min-width: 576px) {
       .container {
@@ -284,6 +298,7 @@ $result = mysqli_query($conn, $sql);
         }
 
   </style>
+
 </head>
 <body>
 
@@ -291,8 +306,8 @@ $result = mysqli_query($conn, $sql);
     <img src="elements/dict_logo2.png" alt="Company Logo">
     <div class="search-container">
         <form id="searchform" method="GET">
-            <input type="text" id="search-bar" name="search" placeholder="Search...">
-            <button type="submit"><i class="fa fa-search"></i></button>
+            <input type="text" id="search-bar" name="search" placeholder="Search by name...">
+            <!-- <button type="submit"><i class="fa fa-search"></i></button> -->
         </form>
     </div>
 </div>
@@ -303,7 +318,7 @@ $result = mysqli_query($conn, $sql);
       <div class="card">
         <div class="card-header">
           <h4>List Of Residents
-          <a href="brgy_form.php" class="btn btn-primary float-end">Upload Information</a>
+          <a href="resident_form.php" class="btn btn-primary float-end">Upload Information</a>
           </h4>
         </div>
         <div class="card-body">
@@ -356,5 +371,29 @@ mysqli_close($conn);
   </div>
 </div>
 
+<!-- JavaScript to handle search functionality -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const searchInput = document.getElementById('search-bar');
+        const tableRows = document.querySelectorAll('.table tbody tr');
+
+        searchInput.addEventListener('input', function () {
+            const searchValue = this.value.toLowerCase().trim();
+            tableRows.forEach(row => {
+                const firstName = row.cells[1].textContent.toLowerCase();
+                const middleName = row.cells[2].textContent.toLowerCase();
+                const lastName = row.cells[3].textContent.toLowerCase();
+                if (firstName.includes(searchValue) || middleName.includes(searchValue) || lastName.includes(searchValue)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    });
+</script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>

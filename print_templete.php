@@ -72,7 +72,7 @@ if(isset($_GET['resident_id'])) {
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <a href="Home.php" class="btn btn-primary float-end">Back</a>
+                    <a href="Home.php" class="btn btn-primary float-start">Back</a>
                 </div>
                 <div class="container" id="container_content">
                     <div class="logo">

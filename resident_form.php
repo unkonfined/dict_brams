@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
     $first_name = mysqli_real_escape_string($conn, $_POST['first_name']);
     $middle_name = mysqli_real_escape_string($conn, $_POST['middle_name']);
     $last_name = mysqli_real_escape_string($conn, $_POST['last_name']);
-    $apellation = mysqli_real_escape_string($conn, $_POST['apellation']);
+    $appellation = mysqli_real_escape_string($conn, $_POST['appellation']);
     $place_of_birth = mysqli_real_escape_string($conn, $_POST['place_of_birth']);
     $date_of_birth = mysqli_real_escape_string($conn, $_POST['date_of_birth']);
     $gender = mysqli_real_escape_string($conn, $_POST['gender']);
@@ -29,8 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
 
     // Insert into personal_information table
     $sql_personal = "INSERT INTO personal_information 
-                     (firstname, middlename, lastname, apellation, placeofbirth, dateofbirth, gender, nationality, relationship, philhealth_id, civilstatus)
-                     VALUES ('$first_name', '$middle_name', '$last_name', '$apellation', '$place_of_birth', '$date_of_birth', '$gender', '$nationality', '$relationship', '$philhealth_id', '$civil_status')";
+                     (firstname, middlename, lastname, appellation, placeofbirth, dateofbirth, gender, nationality, relationship, philhealth_id, civilstatus)
+                     VALUES ('$first_name', '$middle_name', '$last_name', '$appellation', '$place_of_birth', '$date_of_birth', '$gender', '$nationality', '$relationship', '$philhealth_id', '$civil_status')";
     $result_personal = mysqli_query($conn, $sql_personal);
 
     if ($result_personal) {
@@ -165,271 +165,271 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
     include("includes/top_navbar.php");
     ?>
 
-<div class="container"> 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4>
-                        <a href="Home.php" class="btn btn-primary float-end">Back</a>
-                    </h4>
-                </div>
-                <div class="card-body">
-                    <div class="container" id="container_content">
-                        <div class="logo">
-                            <img class="left-logo" src="elements/Bacolod.png" alt="Left Logo">
-                            <div class="logo-text">
-                                <h2>Barangay Resident Registration Form</h2>
-                            </div>
-                            <img class="right-logo" src="elements/NegOcc2.jpg" alt="Right Logo">
+        <div class="container"> 
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>
+                                <a href="Home.php" class="btn btn-primary">Back</a>
+                            </h4>
                         </div>
-                    </div>
-                    <div class="banner">
-                        <div class="banner-text">Please provide the information needed</div>
-                    </div>
+                        <div class="card-body">
+                            <div class="container" id="container_content">
+                                <div class="logo">
+                                    <img class="left-logo" src="elements/Bacolod.png" alt="Left Logo">
+                                    <div class="logo-text">
+                                        <h2>Barangay Resident Registration Form</h2>
+                                    </div>
+                                    <img class="right-logo" src="elements/NegOcc2.jpg" alt="Right Logo">
+                                </div>
+                            </div>
+                            <div class="banner">
+                                <div class="banner-text">Please provide the information needed</div>
+                            </div>
 
-                    <!-- Registration form -->
-                    <form method="POST" id="combined_form">
-                        <!-- Personal Information fields -->
-                        <h3 style="opacity: 0.5;">Personal Information</h3>
-                        <!-- <p>Attach Photo *</p>
-                        <input type="file" id="photo" name="photo" accept="image/*"> -->
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="first_name">First Name *</label>
-                                    <input type="text" class="form-control" id="first_name" name="first_name" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="middle_name">Middle Name</label>
-                                    <input type="text" class="form-control" id="middle_name" name="middle_name">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="last_name">Last Name *</label>
-                                    <input type="text" class="form-control" id="last_name" name="last_name" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="apellation">Apellation</label>
-                                    <select class="form-control" id="apellation" name="apellation">
-                                        <option value="">Select Apellation</option>
-                                        <option value="Mr.">Mr.</option>
-                                        <option value="Mrs.">Mrs.</option>
-                                        <option value="Miss">Miss</option>
-                                        <option value="Ms.">Ms.</option>
-                                        <option value="Dr.">Dr.</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="place_of_birth">Place of Birth *</label>
-                                    <select class="form-control" id="place_of_birth" name="place_of_birth" required>
-                                        <option value="">Select Place of Birth</option>
-                                        <option value="Bago City">Bago City</option>
-                                        <option value="Cadiz City">Cadiz City</option>
-                                        <option value="Escalante City">Escalante City</option>
-                                        <option value="Himamaylan City">Himamaylan City</option>
-                                        <option value="Kabankalan City">Kabankalan City</option>
-                                        <option value="Sagay City">Sagay City</option>
-                                        <option value="San Carlos City">San Carlos City</option>
-                                        <option value="Sipalay City">Sipalay City</option>
-                                        <option value="Silay City">Silay City</option>
-                                        <option value="Talisay City">Talisay City</option>
-                                        <option value="Victorias City">Victorias City</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="date_of_birth">Date of Birth *</label>
-                                    <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" required>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Gender -->
-                        <div class="gendercheck">
-                            <p style="font-size: 1rem;">Gender *</p>
-                            <input type="radio" id="male" name="gender" value="male">
-                            <label for="male" style="margin-right: 25px; font-size: 20px;">Male</label>
-                            <input type="radio" id="female" name="gender" value="female">
-                            <label for="female" style="font-size: 20px;">Female</label>
-                        </div>
-                        <!-- Nationality and Civil Status -->
-                        <div class="dropdown">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="nationality">Nationality *</label>
-                                        <select class="form-control" id="nationality" name="nationality" required>
-                                            <option value="">Select Nationality</option>
-                                            <option value="filipino">Filipino</option>
-                                            <option value="american">American</option>
-                                            <option value="british">British</option>
-                                            <option value="chinese">Chinese</option>
-                                        </select>
+                            <!-- Registration form -->
+                            <form method="POST" id="combined_form">
+                                <!-- Personal Information fields -->
+                                <h3 style="opacity: 0.5;">Personal Information</h3>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="first_name">First Name *</label>
+                                            <input type="text" class="form-control" id="first_name" name="first_name" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="middle_name">Middle Name</label>
+                                            <input type="text" class="form-control" id="middle_name" name="middle_name">
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="civil_status">Civil Status *</label>
-                                        <select class="form-control" id="civil_status" name="civil_status" required>
-                                            <option value="">Select Civil Status</option>
-                                            <option value="single">Single</option>
-                                            <option value="married">Married</option>
-                                            <option value="widowed">Widowed</option>
-                                            <option value="separated">Separated</option>
-                                        </select>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="last_name">Last Name *</label>
+                                            <input type="text" class="form-control" id="last_name" name="last_name" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="appellation">Appellation</label>
+                                            <select class="form-control" id="appellation" name="appellation">
+                                                <option value="">Select Appellation</option>
+                                                <option value="Mr.">Mr.</option>
+                                                <option value="Mrs.">Mrs.</option>
+                                                <option value="Miss">Miss</option>
+                                                <option value="Ms.">Ms.</option>
+                                                <option value="Dr.">Dr.</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="relationship">Relationship *</label>
-                                    <select class="form-control" id="relationship" name="relationship" required onchange="checkRelationship()">
-                                        <option value="">Select Relationship</option>
-                                        <option value="Spouse">Spouse</option>
-                                        <option value="Parent">Parent</option>
-                                        <option value="Child">Child</option>
-                                        <option value="Sibling">Sibling</option>
-                                    </select>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="place_of_birth">Place of Birth *</label>
+                                            <select class="form-control" id="place_of_birth" name="place_of_birth" required>
+                                                <option value="">Select Place of Birth</option>
+                                                <option value="Bago City">Bago City</option>
+                                                <option value="Cadiz City">Cadiz City</option>
+                                                <option value="Escalante City">Escalante City</option>
+                                                <option value="Himamaylan City">Himamaylan City</option>
+                                                <option value="Kabankalan City">Kabankalan City</option>
+                                                <option value="Sagay City">Sagay City</option>
+                                                <option value="San Carlos City">San Carlos City</option>
+                                                <option value="Sipalay City">Sipalay City</option>
+                                                <option value="Silay City">Silay City</option>
+                                                <option value="Talisay City">Talisay City</option>
+                                                <option value="Victorias City">Victorias City</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="date_of_birth">Date of Birth *</label>
+                                            <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" required>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="philhealth_id">PhilHealth ID *</label>
-                                    <input type="number" class="form-control" id="philhealth_id" name="philhealth_id" required>
+                                <!-- Gender -->
+                                <div class="gendercheck">
+                                    <p style="font-size: 1rem;">Gender *</p>
+                                    <input type="radio" id="male" name="gender" value="male">
+                                    <label for="male" style="margin-right: 25px; font-size: 20px;">Male</label>
+                                    <input type="radio" id="female" name="gender" value="female">
+                                    <label for="female" style="font-size: 20px;">Female</label>
                                 </div>
-                            </div>
-                        </div>
+                                <!-- Nationality and Civil Status -->
+                                <div class="dropdown">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="nationality">Nationality *</label>
+                                                <select class="form-control" id="nationality" name="nationality" required>
+                                                    <option value="">Select Nationality</option>
+                                                    <option value="filipino">Filipino</option>
+                                                    <option value="american">American</option>
+                                                    <option value="british">British</option>
+                                                    <option value="chinese">Chinese</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="civil_status">Civil Status *</label>
+                                                <select class="form-control" id="civil_status" name="civil_status" required>
+                                                    <option value="">Select Civil Status</option>
+                                                    <option value="single">Single</option>
+                                                    <option value="married">Married</option>
+                                                    <option value="widowed">Widowed</option>
+                                                    <option value="separated">Separated</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="relationship">Relationship *</label>
+                                            <select class="form-control" id="relationship" name="relationship" required onchange="checkRelationship()">
+                                                <option value="">Select Relationship</option>
+                                                <option value="Spouse">Spouse</option>
+                                                <option value="Parent">Parent</option>
+                                                <option value="Child">Child</option>
+                                                <option value="Sibling">Sibling</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="philhealth_id">PhilHealth ID *</label>
+                                            <input type="number" class="form-control" id="philhealth_id" name="philhealth_id" required>
+                                        </div>
+                                    </div>
+                                </div>
 
-                        <!-- Contact Information form -->
-                        <h3 style="opacity: 0.5;">Contact Information</h3>
-                        <div class="row">
-                            <!-- City/Municipality and Barangay -->
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="city_municipality">City/Municipality *</label>
-                                    <select class="form-control" id="city_municipality" name="city_municipality" required>
-                                        <option value="">Select City/Municipality</option>
-                                        <option value="Bacolod City">Bacolod City</option>
-                                        <option value="Bago City">Bago City</option>
-                                        <option value="Cadiz City">Cadiz City</option>
-                                        <option value="Escalante City">Escalante City</option>
-                                        <option value="Himamaylan City">Himamaylan City</option>
-                                        <option value="Kabankalan City">Kabankalan City</option>
-                                        <option value="La Carlota City">La Carlota City</option>
-                                        <option value="Sagay City">Sagay City</option>
-                                        <option value="San Carlos City">San Carlos City</option>
-                                        <option value="Silay City">Silay City</option>
-                                        <option value="Sipalay City">Sipalay City</option>
-                                        <option value="Talisay City">Talisay City</option>
-                                        <option value="Victorias City">Victorias City</option>
-                                    </select>
+                                <!-- Contact Information form -->
+                                <h3 style="opacity: 0.5;">Contact Information</h3>
+                                <div class="row">
+                                    <!-- City/Municipality and Barangay -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="city_municipality">City/Municipality *</label>
+                                            <select class="form-control" id="city_municipality" name="city_municipality" required>
+                                                <option value="">Select City/Municipality</option>
+                                                <option value="Bacolod City">Bacolod City</option>
+                                                <option value="Bago City">Bago City</option>
+                                                <option value="Cadiz City">Cadiz City</option>
+                                                <option value="Escalante City">Escalante City</option>
+                                                <option value="Himamaylan City">Himamaylan City</option>
+                                                <option value="Kabankalan City">Kabankalan City</option>
+                                                <option value="La Carlota City">La Carlota City</option>
+                                                <option value="Sagay City">Sagay City</option>
+                                                <option value="San Carlos City">San Carlos City</option>
+                                                <option value="Silay City">Silay City</option>
+                                                <option value="Sipalay City">Sipalay City</option>
+                                                <option value="Talisay City">Talisay City</option>
+                                                <option value="Victorias City">Victorias City</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="barangay">Barangay *</label>
+                                            <select class="form-control" id="barangay" name="barangay" required>
+                                                <option value="">Select Barangay</option>
+                                                <option value="Alangilan">Alangilan</option>
+                                                <option value="Alijis">Alijis</option>
+                                                <option value="Bata">Bata</option>
+                                                <option value="Cabug">Cabug</option>
+                                                <option value="Estefania">Estefania</option>
+                                                <option value="Felisa">Felisa</option>
+                                                <option value="Granada">Granada</option>
+                                                <option value="Handumanan">Handumanan</option>
+                                                <option value="Mandalagan">Mandalagan</option>
+                                                <option value="Mansilingan">Mansilingan</option>
+                                                <option value="Montevista">Montevista</option>
+                                                <option value="Pahanocoy">Pahanocoy</option>
+                                                <option value="Punta Taytay">Punta Taytay</option>
+                                                <option value="Singcang-Airport">Singcang-Airport</option>
+                                                <option value="Sum-ag">Sum-ag</option>
+                                                <option value="Taculing">Taculing</option>
+                                                <option value="Tangub">Tangub</option>
+                                                <option value="Villamonte">Villamonte</option>
+                                                <option value="Vista Alegre">Vista Alegre</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="barangay">Barangay *</label>
-                                    <select class="form-control" id="barangay" name="barangay" required>
-                                        <option value="">Select Barangay</option>
-                                        <option value="Alangilan">Alangilan</option>
-                                        <option value="Alijis">Alijis</option>
-                                        <option value="Bata">Bata</option>
-                                        <option value="Cabug">Cabug</option>
-                                        <option value="Estefania">Estefania</option>
-                                        <option value="Felisa">Felisa</option>
-                                        <option value="Granada">Granada</option>
-                                        <option value="Handumanan">Handumanan</option>
-                                        <option value="Mandalagan">Mandalagan</option>
-                                        <option value="Mansilingan">Mansilingan</option>
-                                        <option value="Montevista">Montevista</option>
-                                        <option value="Pahanocoy">Pahanocoy</option>
-                                        <option value="Punta Taytay">Punta Taytay</option>
-                                        <option value="Singcang-Airport">Singcang-Airport</option>
-                                        <option value="Sum-ag">Sum-ag</option>
-                                        <option value="Taculing">Taculing</option>
-                                        <option value="Tangub">Tangub</option>
-                                        <option value="Villamonte">Villamonte</option>
-                                        <option value="Vista Alegre">Vista Alegre</option>
-                                    </select>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="residence_since">Resident of Municipality since *</label>
+                                            <input type="number" class="form-control" id="residence_since" name="residence_since" placeholder="YYYY" min="1900" max="2099" step="1" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="cellphone_number">Contact Number *</label>
+                                            <input type="tel" class="form-control" id="cellphone_number" name="cellphone_number" required>
+                                            <small class="form-text text-muted">Enter a valid 11-digit phone number (e.g., 09123456789).</small>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="residence_since">Resident of Municipality since *</label>
-                                    <input type="number" class="form-control" id="residence_since" name="residence_since" placeholder="YYYY" min="1900" max="2099" step="1" required>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="email_address">Email Address *</label>
+                                            <input type="email" class="form-control" id="email_address" name="email_address" required>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="cellphone_number">Contact Number *</label>
-                                    <input type="tel" class="form-control" id="cellphone_number" name="cellphone_number" required>
-                                    <small class="form-text text-muted">Enter a valid 11-digit phone number (e.g., 09123456789).</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="email_address">Email Address *</label>
-                                    <input type="email" class="form-control" id="email_address" name="email_address" required>
-                                </div>
-                            </div>
-                        </div>
 
-                        <!-- Emergency Contact form -->
-                        <h3 style="opacity: 0.5;">Person to Notify in Case of Emergency</h3>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="emergency_contact_name">Full Name *</label>
-                                    <input type="text" class="form-control" id="emergency_contact_name" name="emergency_contact_name">
+                                <!-- Emergency Contact form -->
+                                <h3 style="opacity: 0.5;">Person to Notify in Case of Emergency</h3>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="emergency_contact_name">Full Name *</label>
+                                            <input type="text" class="form-control" id="emergency_contact_name" name="emergency_contact_name">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="emergency_contact_address">Full Address *</label>
+                                            <input type="text" class="form-control" id="emergency_contact_address" name="emergency_contact_address">
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="emergency_contact_address">Full Address *</label>
-                                    <input type="text" class="form-control" id="emergency_contact_address" name="emergency_contact_address">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="relationship">Relationship *</label>
+                                            <select class="form-control" id="relationship" name="emer_relationship">
+                                                <option value="">Select Relationship</option>
+                                                <option value="Spouse">Spouse</option>
+                                                <option value="Parent">Parent</option>
+                                                <option value="Child">Child</option>
+                                                <option value="Sibling">Sibling</option>
+                                                <option value="Others">Others</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="emergency_contact_number">Contact Number *</label>
+                                            <input type="tel" class="form-control" id="emergency_contact_number" name="emergency_contact_number" required>
+                                            <small class="form-text text-muted">Enter a valid 11-digit phone number (e.g., 09123456789).</small>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            <div style="display: flex; justify-content: center;">
+                                <input type="submit" name="submit" id="submit" class="btn btn-primary" value="Submit" style="width: 200px;">
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="relationship">Relationship *</label>
-                                    <select class="form-control" id="relationship" name="emer_relationship">
-                                        <option value="">Select Relationship</option>
-                                        <option value="Spouse">Spouse</option>
-                                        <option value="Parent">Parent</option>
-                                        <option value="Child">Child</option>
-                                        <option value="Sibling">Sibling</option>
-                                        <option value="Others">Others</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="emergency_contact_number">Contact Number *</label>
-                                    <input type="tel" class="form-control" id="emergency_contact_number" name="emergency_contact_number" required>
-                                    <small class="form-text text-muted">Enter a valid 11-digit phone number (e.g., 09123456789).</small>
-                                </div>
-                            </div>
-                        </div>
-                        <input type="submit" name="submit" id="submit" class="btn btn-primary" value="Submit">
                     </form>
                 </div>
             </div>

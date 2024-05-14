@@ -1,90 +1,234 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <title>Responsive Form</title> -->
-    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        /* Global styles */
-        body {
-            font-family: Arial, sans-serif;
+
+    <?php
+    // Establish connection
+    $conn = mysqli_connect('localhost', 'root', '', 'db_bacolod') or die("Connection Failed: " . mysqli_connect_error());
+
+    // Query to fetch all residents
+    $sql = "SELECT * FROM personal_information";
+
+    // Query to fetch all residents
+    $result = mysqli_query($conn, $sql);
+?>
+
+<?php
+// Display all PHP errors (useful for debugging)
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Establish connection
+$conn = mysqli_connect('localhost', 'root', '', 'db_bacolod') or die("Connection Failed: " . mysqli_connect_error());
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
+    // Function to escape input data
+    function escapeInput($conn, $data) {
+        return mysqli_real_escape_string($conn, trim($data));
+    }
+
+    // Retrieve and escape all POST data
+    $last_name = escapeInput($conn, $_POST['last_name']);
+    $first_name = escapeInput($conn, $_POST['first_name']);
+    $middle_name = escapeInput($conn, $_POST['middle_name']);
+    $relation_HHHead = escapeInput($conn, $_POST['relation_HHHead']);
+    $sitio = escapeInput($conn, $_POST['sitio']);
+    $barangay = escapeInput($conn, $_POST['barangay']);
+    $household_number = escapeInput($conn, $_POST['household_number']);
+    $renter = escapeInput($conn, $_POST['renter']);
+    $renter_months = escapeInput($conn, $_POST['renter_months']);
+    $nhts_status = escapeInput($conn, $_POST['nhts_status']);
+    $tribe = escapeInput($conn, $_POST['tribe']);
+    $water_source = escapeInput($conn, $_POST['water_source']);
+    $toilet_facility = escapeInput($conn, $_POST['toilet_facility']);
+    $waste_management = escapeInput($conn, $_POST['waste_management']);
+    $blind_drainage = escapeInput($conn, $_POST['blind_drainage']);
+    $business_name = escapeInput($conn, $_POST['business_name']);
+    $business_address = escapeInput($conn, $_POST['business_address']);
+
+    // Insert into name_of_respondent table
+    $sql_respondent = "INSERT INTO name_of_respondent (last_name, first_name, middle_name, relation_HHHead) VALUES ('$last_name', '$first_name', '$middle_name', '$relation_HHHead')";
+    $result_respondent = mysqli_query($conn, $sql_respondent);
+
+    if ($result_respondent) {
+        $respondent_id = mysqli_insert_id($conn); // Get the auto-generated ID of the inserted record
+
+        // Insert into household_information table
+        $sql_household = "INSERT INTO household_information (respondent_id, sitio, barangay, household_number, renter, renter_months) VALUES ('$respondent_id', '$sitio', '$barangay', '$household_number', '$renter', '$renter_months')";
+        $result_household = mysqli_query($conn, $sql_household);
+
+        if ($result_household) {
+            // Insert into se_status table
+            $sql_status = "INSERT INTO se_status (respondent_id, nhts_status, tribe, water_source, toilet_facility, waste_management, blind_drainage) VALUES ('$respondent_id', '$nhts_status', '$tribe', '$water_source', '$toilet_facility', '$waste_management', '$blind_drainage')";
+            $result_status = mysqli_query($conn, $sql_status);
+
+            if ($result_status) {
+                // Insert into business_information table
+                $sql_business = "INSERT INTO business_information (respondent_id, business_name, business_address) VALUES ('$respondent_id', '$business_name', '$business_address')";
+                $result_business = mysqli_query($conn, $sql_business);
+
+                if ($result_business) {
+                    // Insert selected members into household_members table if any
+                    if (isset($_POST['resident_id']) && is_array($_POST['resident_id'])) {
+                        foreach ($_POST['resident_id'] as $member_id) {
+                            $member_id = escapeInput($conn, $member_id);
+                            $sql_insert_member = "INSERT INTO household_members (respondent_id, member_id) VALUES ('$respondent_id', '$member_id')";
+                            $result_insert_member = mysqli_query($conn, $sql_insert_member);
+
+                            if (!$result_insert_member) {
+                                echo 'Error inserting into household_members table: ' . mysqli_error($conn);
+                            }
+                        }
+                    }
+
+                    // Redirect to Home.php after successful insertion
+                    header("Location: Home.php");
+                    exit(); // Ensure no further code execution after redirect
+                } else {
+                    echo 'Error inserting into business_information table: ' . mysqli_error($conn);
+                }
+            } else {
+                echo 'Error inserting into se_status table: ' . mysqli_error($conn);
+            }
+        } else {
+            echo 'Error inserting into household_information table: ' . mysqli_error($conn);
+        }
+    } else {
+        echo 'Error inserting into name_of_respondent table: ' . mysqli_error($conn);
+    }
+
+    // Close connection
+    mysqli_close($conn);
+}
+?>
+
+
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
+    $conn = mysqli_connect('localhost', 'root', '', 'db_bacolod') or die("Connection Failed: " . mysqli_connect_error());
+
+    // Assume respondent_id is available, e.g., from session or form input
+    $respondent_id = mysqli_real_escape_string($conn, $_POST['respondent_id']);
+
+    // Insert selected members into household_members table
+    if (isset($_POST['resident_id']) && is_array($_POST['resident_id'])) {
+        foreach ($_POST['resident_id'] as $member_id) {
+            $member_id = mysqli_real_escape_string($conn, $member_id);
+            $sql_insert_member = "INSERT INTO household_members (respondent_id, member_id) VALUES ('$respondent_id', '$member_id')";
+            $result_insert_member = mysqli_query($conn, $sql_insert_member);
+
+            if (!$result_insert_member) {
+                echo 'Error inserting into household_members table: ' . mysqli_error($conn);
+            }
         }
 
-        .container {
-            margin-top: 20px;
-        }
+        // Redirect to Home.php after successful insertion
+        header("Location: Home.php");
+        exit(); // Ensure no further code execution after redirect
+    } else {
+        echo 'No members selected.';
+    }
 
-        .card {
-            margin-bottom: 20px;
-        }
+    // Close connection
+    mysqli_close($conn);
+}
+?>
 
-        /* Form styles */
+
+
+
+<style>
+    /* Global styles */
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    .container {
+        margin-top: 20px;
+        padding: 0 20px; /* Added padding for better mobile view */
+    }
+
+    .card {
+        margin-bottom: 20px;
+    }
+
+    /* Form styles */
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    /* Logo and Banner */
+    .logo {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+    }
+
+    .banner-text {
+        font-size: 1.5rem;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        background-color: #D8F1B9;
+        padding: 10px;
+        color: black;
+        text-align: center;
+    }
+
+    .logo img {
+        max-width: 100px;
+        height: auto;
+    }
+
+    .logo-text {
+        flex-grow: 1;
+        text-align: center;
+    }
+
+    .logo-text h2 {
+        margin-top: 10px;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 768px) {
         .form-group {
-            margin-bottom: 20px;
-        }
-
-        /* Logo and Banner */
-        .logo {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px;
-        }
-
-        .banner-text {
-            font-size: 1.5rem;
-            margin-top: 10px;
-            margin-bottom: 10px;
-            background-color: #D8F1B9;
-            padding: 10px;
-            color: black;
-            text-align: center;
+            margin-bottom: 15px;
         }
 
         .logo img {
-            max-width: 100px;
-            height: auto;
-        }
-
-        .logo-text {
-            flex-grow: 1;
-            text-align: center;
+            max-width: 80px;
         }
 
         .logo-text h2 {
-            margin-top: 10px;
+            font-size: 1.2rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .form-group {
+            margin-bottom: 10px;
         }
 
-        /* Responsive styles */
-        @media (max-width: 768px) {
-            .form-group {
-                margin-bottom: 15px;
-            }
-
-            .logo img {
-                max-width: 80px;
-            }
-
-            .logo-text h2 {
-                font-size: 1.2rem;
-            }
+        .logo img {
+            max-width: 60px;
         }
 
-        @media (max-width: 576px) {
-            .form-group {
-                margin-bottom: 10px;
-            }
-
-            .logo img {
-                max-width: 60px;
-            }
-
-            .logo-text h2 {
-                font-size: 1rem;
-            }
+        .logo-text h2 {
+            font-size: 1rem;
         }
+
+        .container {
+            padding: 0 10px; /* Adjusted padding for smaller screens */
+        }
+    }
 
     /* Additional styles for left and right logos */
     .logo .left-logo,
@@ -92,7 +236,8 @@
         max-width: 200px; /* Adjust the max-width as needed */
         height: auto; /* This ensures the image maintains its aspect ratio */
     }
-        .btn-common {
+
+    .btn-common {
         display: inline-block;
         padding: 0.7em 1.4em 0.7em 1.1em;
         font-family: inherit;
@@ -127,693 +272,409 @@
         border: none;
         background: none;
     }
+
+/* Styles for the search bar */
+.search-bar {
+    width: 300px; /* Adjust width as needed */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    outline: none;
+}
+
+/* Float the search bar to the right */
+#show_member .search-bar {
+    float: right;
+}
+
+/* Styles for the table */
+.table {
+    width: 100%;
+}
+
+/* Styles for table header */
+.table th {
+    font-weight: bold;
+    text-align: left;
+}
+
+/* Styles for table rows */
+.table td,
+.table th {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Hover effect for table rows */
+.table tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.left-content {
+    flex: 1;
+}
+
+.right-content {
+    flex: 1;
+    text-align: right;
+}
+
+
+
 </style>
 
-    
-</head>
-<body>
-    <?php
-    include("includes/top_navbar.php");
-    ?>
 
-<div class="container"> 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4>
-                        <a href="Home.php" class="btn btn-primary float-end">Back</a>
-                    </h4>
-                </div>
-                <div class="card-body">
-                    <div class="container" id="container_content">
-                        <div class="logo">
-                            <img class="left-logo" src="elements/barangay8logo.png" alt="Left Logo">
-                            <div class="logo-text">
-                                <h2>HARMONIZED FAMILY/HOUSEHOLD PROFILE</h2>
-                            </div>
-                            
-                        </div>
-                    </div>
-                    <div class="banner">
-                        <div class="banner-text">Please provide the information needed</div>
-                    </div>
 
-                    <!-- Registration form -->
-                    <form action="insert_function.php" method="POST" id="combined_form">
-                        <!-- Personal Information fields -->
-                        <h3 style="opacity: 0.5;">Personal Information *</h3>
-                        <!-- Attach Photo -->
-                        <p>Attach Photo *</p>
-                        <input type="file" id="photo" name="photo" accept="image/*">
-                        <br>
-                        <br>
-                        <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="last_name">Last Name *</label>
-                                <input type="text" class="form-control" id="last_name" name="last_name" required>
-                            </div>
-                        </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="first_name">First Name *</label>
-                                    <input type="text" class="form-control" id="first_name" name="first_name" required>
-                                </div>
-                            </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="middle_name">Middle Name</label>
-                                        <input type="text" class="form-control" id="middle_name" name="middle_name">
-                                    </div>
-                                </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="suffix">Suffix</label>
-                                    <select class="form-control" id="suffix" name="suffix">
-                                        <option value="">Select Suffix</option>
-                                        <option value="Sr.">Sr.</option>
-                                        <option value="Jr..">Jr.</option>
-                                        <option value="II">II</option>
-                                        <option value="III">III</option>
-                                        <option value="IV">IV</option>
-                                        <option value="V">V</option>
-                                        <option value="VI">VI</option>
-                                        <option value="VII">VII</option>
-                                        <option value="VIII">VIII</option>
-                                        <option value="IX">IX</option>
-                                        <option value="X">X</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                         <!-- Gender -->
-                         <div class="row">
-                            <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="relationship">Relationship to Household Head *</label>
-                                        <select class="form-control" id="relationship" name="relationship" required onchange="checkRelationship()">
-                                            <option value="">Select Relationship</option>
-                                            <option value="Spouse">Head</option>
-                                            <option value="Spouse">Spouse</option>
-                                            <option value="Parent">Son</option>
-                                            <option value="Child">Daughter</option>
-                                            <option value="Sibling">Parent</option>
-                                            <option value="Spouse">Sibling</option>
-                                            <option value="Spouse">Others</option>
-                                        </select>
-                                    </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="gendercheck">
-                                    <p style="font-size: 1rem;">Gender *</p>
-                                    <input type="radio" id="male" name="gender" value="male">
-                                    <label for="male" style="margin-right: 25px; font-size: 15px;">Male</label>
-                                    <input type="radio" id="female" name="gender" value="female">
-                                    <label for="female" style="font-size: 15px;">Female</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="date_of_birth">Date of Birth *</label>
-                                        <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" required>
-                                    </div>
-                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="place_of_birth">Place of Birth *</label>
-                                    <select class="form-control" id="place_of_birth" name="place_of_birth" required>
-                                        <option value="">Select Place of Birth</option>
-                                        <option value="Bago City">Bago City</option>
-                                        <option value="Cadiz City">Cadiz City</option>
-                                        <option value="Escalante City">Escalante City</option>
-                                        <option value="Himamaylan City">Himamaylan City</option>
-                                        <option value="Kabankalan City">Kabankalan City</option>
-                                        <option value="Sagay City">Sagay City</option>
-                                        <option value="San Carlos City">San Carlos City</option>
-                                        <option value="Sipalay City">Sipalay City</option>
-                                        <option value="Silay City">Silay City</option>
-                                        <option value="Talisay City">Talisay City</option>
-                                        <option value="Victorias City">Victorias City</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Nationality and Civil Status -->
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="nationality">Nationality *</label>
-                                    <select class="form-control" id="nationality" name="nationality" required>
-                                        <option value="">Select Nationality</option>
-                                        <option value="filipino">Filipino</option>
-                                        <option value="american">American</option>
-                                        <option value="british">British</option>
-                                        <option value="chinese">Chinese</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="civil_status">Civil Status *</label>
-                                    <select class="form-control" id="civil_status" name="civil_status" required>
-                                        <option value="">Select Civil Status</option>
-                                        <option value="single">Single</option>
-                                        <option value="married">Married</option>
-                                        <option value="widowed">Widow/Widower</option>
-                                        <option value="separated">Live In</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="philhealth_id">PhilHealth ID *</label>
-                                    <input type="number" class="form-control" id="philhealth_id" name="philhealth_id" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="membership">Philhealth Membership *</label>
-                                    <select class="form-control" id="membership" name="membership" required onchange="checkMembership()">
-                                        <option value="">Select Membership</option>
-                                        <option value="member">Member</option>
-                                        <option value="dependent">Dependent</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="wra">WRA Last Menstruation Period </label>
-                                        <input type="date" class="form-control" id="wra" name="wra">
-                                    </div>
-                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="educational_attainment">Educational Attainment *</label>
-                                    <select class="form-control" id="education_occupation" name="educational_attainment" placeholder="Select Educational Attainment"required>
-                                        <option value="none">None</option>
-                                        <option value="elementary_level">Elementary Level</option>
-                                        <option value="elementary_graduate">Elementary Graduate</option>
-                                        <option value="high_school_level">High School Level</option>
-                                        <option value="high_school_graduate">High School Graduate</option>
-                                        <option value="vocational">Vocational</option>
-                                        <option value="college_level">College Level</option>
-                                        <option value="college_graduate">College Graduate</option>
-                                        <option value="post_graduate">Postgraduate</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="wra">Occupation *</label>
-                                        <input type="text" class="form-control" id="occupation" name="occupation">
-                                    </div>
-                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="nutrition_status">Remarks Nutrition Status *</label>
-                                    <select class="form-control" id="nutrition_status" name="nutrition_status" placeholder="Select Nutrition Status"required>
-                                        <option value="none">None</option>
-                                        <option value="sam">SAM - Severe Acute Malnutrition</option>
-                                        <option value="mam">Mam - Moderate Acute Malnutrition</option>
-                                        <option value="st">ST - Stunted</option>
-                                        <option value="for_updating">UP - for updating</option>
-                                        <option value="transferred">Transfer of Residence</option>
-                                    </select>
-                                </div>
-                            </div>
 
-                        <!-- Contact Information form -->
-                        <h3 style="opacity: 0.5;">Household Information</h3>
-                        <div class="row">
-                            <!-- City/Municipality and Barangay -->
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="sitio_purok">Sitio/Purok *</label>
-                                    <input type="text" class="form-control" id="sitio_purok" name="sitio_purok" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="barangay">Barangay *</label>
-                                    <select class="form-control" id="barangay" name="barangay" required>
-                                        <option value="">Select Barangay</option>
-                                        <option value="Alangilan">Alangilan</option>
-                                        <option value="Alijis">Alijis</option>
-                                        <option value="Bata">Bata</option>
-                                        <option value="Cabug">Cabug</option>
-                                        <option value="Estefania">Estefania</option>
-                                        <option value="Felisa">Felisa</option>
-                                        <option value="Granada">Granada</option>
-                                        <option value="Handumanan">Handumanan</option>
-                                        <option value="Mandalagan">Mandalagan</option>
-                                        <option value="Mansilingan">Mansilingan</option>
-                                        <option value="Montevista">Montevista</option>
-                                        <option value="Pahanocoy">Pahanocoy</option>
-                                        <option value="Punta Taytay">Punta Taytay</option>
-                                        <option value="Singcang-Airport">Singcang-Airport</option>
-                                        <option value="Sum-ag">Sum-ag</option>
-                                        <option value="Taculing">Taculing</option>
-                                        <option value="Tangub">Tangub</option>
-                                        <option value="Villamonte">Villamonte</option>
-                                        <option value="Vista Alegre">Vista Alegre</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="household_number">Household Number *</label>
-                                    <input type="number" class="form-control" id="household_number" name="household_number" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="renter">Renter? *</label>
-                                        <select class="form-control" id="renter" name="renter" required>
-                                            <option value="">Select</option>
-                                            <option value="Renter_Yes">Yes</option>
-                                            <option value="Renter_no">No</option>
-                                        </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="months">If renter, number of months </label>
-                                    <input type="number" class="form-control" id="months" name="months">
-                                </div>
-                            </div>
-                        </div>
 
-                        <h3 style="opacity: 0.5;">Social Eoconomic Status *</h3>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="nhts_information">
-                                    <p style="font-size: 1rem;"> </p>
-                                    <input type="radio" id="nhts_4ps" name="nhts_status" value="nhts_4ps">
-                                    <label for="nhts_4ps" style="margin-right: 25px; font-size: 15px;">NHTS 4ps</label><br>
-                                    <input type="radio" id="nhts_non4ps" name="nhts_status" value="nhts_non4ps">
-                                    <label for="nhts_non4ps" style="font-size: 15px;">NHTS Non-4ps</label><br>
-                                    <input type="radio" id="non_nhts" name="nhts_status" value="_non_nhts">
-                                    <label for="non-nhts" style="font-size: 15px;">Non-NHTS</label><br><br>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="ip_household_information">
-                                    <p style="font-size: 1rem;"> </p>
-                                    <input type="radio" id="ip_household" name="ip_household_status" value="ip_household">
-                                    <label for="ip_household" style="margin-right: 25px; font-size: 15px;">IP Household</label><br>
-                                    <input type="radio" id="non_ip_household" name="ip_household_status" value="non_ip_household">
-                                    <label for="non_ip_household" style="font-size: 15px;">Non-IP Household</label><br><br>
+                        </head>
+                        <body>
+                            <?php
+                            include("includes/top_navbar.php");
+                            ?>
 
-                                </div>
-                            </div>
-                        </div>
-                        <br>
-                        <br>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="water_source">Type of Water Source *</label>
-                                    <select class="form-control" id="water_source" name="water_source" required>
-                                        <option value="">Select Water Source</option>
-                                        <option value="point_source">Level I - Point Source</option>
-                                        <option value="communal_faucet">Level II - Communal Faucet</option>
-                                        <option value="individual_connection">Level III - Individual Connection</option>
-                                        <option value="other_source">Others - For doubtful sources, open dug well, etc.</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="toilet_facility">Type of Toilet Facility *</label>
-                                    <select class="form-control" id="toilet_facility" name="toilet_facility" required>
-                                        <option value="">Select Toilet Facility</option>
-                                        <option value="pour_flash">A - Pour/Flush type connection to septic tank</option>
-                                        <option value="flush_toilet">B - Flush Toilet connection to septic tank and to sewage system</option>
-                                        <option value="ventilated_pit">C - Ventilated Pit (VIP) Latrine</option>
-                                        <option value="water_sealed">D - Water-Sealed Toilet</option>
-                                        <option value="open_hung">E - Over Hung latrine</option>
-                                        <option value="open_pit">F - Open Pit Latrine</option>
-                                        <option value="without_toilet">G - Without Toilet</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="waste_management">Type of Waste Management *</label>
-                                    <select class="form-control" id="waste_management" name="waste_management" required>
-                                        <option value="">Select Waste Management</option>
-                                        <option value="waste_segregation">A - Waste Segregation</option>
-                                        <option value="backyard_composting">B - Backyard Composting</option>
-                                        <option value="recycle_reuse">C - Recycled/Reuse</option>
-                                        <option value="collected">D - Collected by City/Municipal Collection and Disposal System</option>
-                                        <option value="other_management">E - Others (Burning/Burying)</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="blind_drainage">With Blind Drainage *</label>
-                                    <select class="form-control" id="blind_drainage" name="blind_drainage" required>
-                                        <option value="yes_blind_drainage">Yes</option>
-                                        <option value="no_blind_drainage">No</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <br>
-                        <br>
-                        <h3 style="opacity: 0.5;">Business Information </h3>
-                        <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="business_name">Business Name </label>
-                                <input type="text" class="form-control" id="business_name" name="business_name">
-                            </div>
-                        </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="business_address">Business Address </label>
-                                    <input type="text" class="form-control" id="business_address" name="business_address">
-                                </div>
-                            </div>
-                        <div class="row"> 
-                        <div id="show_member">
+                        <div class="container"> 
                             <div class="row">
-                            <h3 style="opacity: 0.5;">Household Members</h3>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label for="hh_last_name">Last Name *</label>
-                                        <input type="text" class="form-control" id="hh_last_name" name="hh_last_name" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label for="hh_first_name">First Name *</label>
-                                        <input type="text" class="form-control" id="hh_first_name" name="hh_first_name" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-1">
-                                    <div class="form-group">
-                                        <label for="hh_suffix">Suffix</label>
-                                        <select class="form-control" id="hh_suffix" name="hh_suffix">
-                                            <option value="">Suffix</option>
-                                            <option value="Sr.">Sr.</option>
-                                            <option value="Jr..">Jr.</option>
-                                            <option value="II">II</option>
-                                            <option value="III">III</option>
-                                            <option value="IV">IV</option>
-                                            <option value="V">V</option>
-                                            <option value="VI">VI</option>
-                                            <option value="VII">VII</option>
-                                            <option value="VIII">VIII</option>
-                                            <option value="IX">IX</option>
-                                            <option value="X">X</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label for="hh_relationship">Relationship to HH *</label>
-                                        <select class="form-control" id="hh_relationship" name="hh_relationship" required onchange="checkRelationship()">
-                                            <option value="">Select Relationship</option>
-                                            <option value="Spouse">Head</option>
-                                            <option value="Spouse">Spouse</option>
-                                            <option value="Parent">Son</option>
-                                            <option value="Child">Daughter</option>
-                                            <option value="Sibling">Parent</option>
-                                            <option value="Spouse">Sibling</option>
-                                            <option value="Spouse">Others</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-1">
-                                    <div class="form-group">
-                                        <label for="hh_sex">Sex *</label>
-                                        <select class="form-control" id="hh_sex" name="hh_sex" required onchange="checkRelationship()">
-                                            <option value="">Select Sex</option>
-                                            <option value="female">Female</option>
-                                            <option value="male">Male</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                        <div class="form-group">
-                                            <label for="hh_date_of_birth">Date of Birth *</label>
-                                            <input type="date" class="form-control" id="hh_date_of_birth" name="hh_date_of_birth" required>
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h4>
+                                                <a href="Home.php" class="btn btn-primary float-end">Back</a>
+                                            </h4>
                                         </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label for="hh_civil_status">Civil Status *</label>
-                                        <select class="form-control" id="hh_civil_status" name="hh_civil_status" required>
-                                            <option value="">Select Civil Status</option>
-                                            <option value="single">Single</option>
-                                            <option value="married">Married</option>
-                                            <option value="widowed">Widow/Widower</option>
-                                            <option value="separated">Live In</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="hh_form-group">
-                                        <label for="philhealth_id">PhilHealth ID *</label>
-                                        <input type="number" class="form-control" id="hh_philhealth_id" name="hh_philhealth_id" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-1">
-                                    <div class="form-group">
-                                        <label for="hh_membership">Membership</label>
-                                        <select class="form-control" id="hh_membership" name="hh_membership" required onchange="checkMembership()">
-                                            <option value="hh_membership">Select Membership</option>
-                                            <option value="member">Member</option>
-                                            <option value="dependent">Dependent</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label for="hh_wra">WRA </label>
-                                        <input type="date" class="form-control" id="hh_wra" name="hh_wra">
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label for="hh_educational_attainment">Educational Attainment *</label>
-                                        <select class="form-control" id="hh_educational_attainment" name="hh_educational_attainment" placeholder="Select Educational Attainment"required>
-                                            <option value="none">None</option>
-                                            <option value="elementary_level">Elementary Level</option>
-                                            <option value="elementary_graduate">Elementary Graduate</option>
-                                            <option value="high_school_level">High School Level</option>
-                                            <option value="high_school_graduate">High School Graduate</option>
-                                            <option value="vocational">Vocational</option>
-                                            <option value="college_level">College Level</option>
-                                            <option value="college_graduate">College Graduate</option>
-                                            <option value="postgraduate">Postgraduate</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label for="hh_occupatiom">Occupation *</label>
-                                        <input type="text" class="form-control" id="hh_occupation" name="hh_occupation">
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label for="weight_remarks">Remarks *</label>
-                                        <select class="form-control" id="weight_remarks" name="weight_remarksn" placeholder="Select Educational Attainment"required>
-                                            <option value="none">None</option>
-                                            <option value="sam">SAM - Severe Acute Malnutrition</option>
-                                            <option value="mam">Mam - Moderate Acute Malnutrition</option>
-                                            <option value="st">ST - Stunted</option>
-                                            <option value="for_updating">UP - for updating</option>
-                                            <option value="transferred">Transfer of Residence</option>
-                                        </select>
-                                    </div>
-                                </div>
+                                        <div class="card-body">
+                                            <div class="container" id="container_content">
+                                                <div class="logo">
+                                                    <img class="left-logo" src="elements/barangay8logo.png" alt="Left Logo">
+                                                    <div class="logo-text">
+                                                        <h2>HARMONIZED FAMILY/HOUSEHOLD PROFILE</h2>
+                                                    </div>
 
-                                    
-                                <div class="cold-md-2">
-                                    <button classs ="btn btn-success add_member_btn">Add Member</button>
+                                                </div>
+                                            </div>
+                                            <div class="banner">
+                                                <div class="banner-text">Please provide the information needed</div>
+                                            </div>
 
-                                </div>
-                                <br>
-                                <br>
-                                <input type="submit" name="submit" id="submit" class="btn btn-primary" value="Submit">
-                            </div>
-
-                            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-                            <script>
-                                $(document).ready(function() {
-                                    $(".add_member_btn").click(function(e) {
-                                        e.preventDefault();
-                                        $("#show_member").prepend('
-                                        <div class="row">
-                                            <h3 style="opacity: 0.5;">Household Member</h3>
-                                                <div class="col-md-2">
+                                            <!-- Registration form -->
+                                            <form method="POST" id="combined_form">
+                                                <!-- Personal Information fields -->
+                                                <h3 style="opacity: 0.5;">Name of Respondent*</h3>
+                                                <div class="row">
+                                                <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="last_name">Last Name *</label>
                                                         <input type="text" class="form-control" id="last_name" name="last_name" required>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-2">
-                                                    <div class="form-group">
-                                                        <label for="first_name">First Name *</label>
-                                                        <input type="text" class="form-control" id="first_name" name="first_name" required>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-1">
-                                                    <div class="form-group">
-                                                        <label for="suffix">Suffix</label>
-                                                        <select class="form-control" id="suffix" name="suffix">
-                                                            <option value="">Suffix</option>
-                                                            <option value="Sr.">Sr.</option>
-                                                            <option value="Jr..">Jr.</option>
-                                                            <option value="II">II</option>
-                                                            <option value="III">III</option>
-                                                            <option value="IV">IV</option>
-                                                            <option value="V">V</option>
-                                                            <option value="VI">VI</option>
-                                                            <option value="VII">VII</option>
-                                                            <option value="VIII">VIII</option>
-                                                            <option value="IX">IX</option>
-                                                            <option value="X">X</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <div class="form-group">
-                                                        <label for="relationship">Relationship to HH *</label>
-                                                        <select class="form-control" id="relationship" name="relationship" required onchange="checkRelationship()">
-                                                            <option value="">Select Relationship</option>
-                                                            <option value="Spouse">Head</option>
-                                                            <option value="Spouse">Spouse</option>
-                                                            <option value="Parent">Son</option>
-                                                            <option value="Child">Daughter</option>
-                                                            <option value="Sibling">Parent</option>
-                                                            <option value="Spouse">Sibling</option>
-                                                            <option value="Spouse">Others</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-1">
-                                                    <div class="form-group">
-                                                        <label for="relationship">Sex *</label>
-                                                        <select class="form-control" id="relationship" name="relationship" required onchange="checkRelationship()">
-                                                            <option value="">Select Sex</option>
-                                                            <option value="Spouse">Female</option>
-                                                            <option value="Spouse">Male</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-2">
+                                                    <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label for="date_of_birth">Date of Birth *</label>
-                                                            <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" required>
+                                                            <label for="first_name">First Name *</label>
+                                                            <input type="text" class="form-control" id="first_name" name="first_name" required>
                                                         </div>
+                                                    </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="middle_name">Middle Name</label>
+                                                                <input type="text" class="form-control" id="middle_name" name="middle_name">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="relation_HHHead">Relationship to Household Head *</label>
+                                                                <select class="form-control" id="relation_HHHead" name="relation_HHHead" required onchange="checkRelationship()">
+                                                                    <option value="">Select Relationship</option>
+                                                                    <option value="Spouse">Head</option>
+                                                                    <option value="Spouse">Spouse</option>
+                                                                    <option value="Parent">Son</option>
+                                                                    <option value="Child">Daughter</option>
+                                                                    <option value="Sibling">Parent</option>
+                                                                    <option value="Spouse">Sibling</option>
+                                                                    <option value="Spouse">Others</option>
+                                                                </select>
+                                                            </div>
+                                                         </div>
                                                 </div>
-                                                <div class="col-md-2">
-                                                    <div class="form-group">
-                                                        <label for="civil_status">Civil Status *</label>
-                                                        <select class="form-control" id="civil_status" name="civil_status" required>
-                                                            <option value="">Select Civil Status</option>
-                                                            <option value="single">Single</option>
-                                                            <option value="married">Married</option>
-                                                            <option value="widowed">Widow/Widower</option>
-                                                            <option value="separated">Live In</option>
-                                                        </select>
+                                                <!-- Contact Information form -->
+                                                <h3 style="opacity: 0.5;">Household Information</h3>
+                                                <div class="row">
+                                                    <!-- City/Municipality and Barangay -->
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="sitio">Sitio/Purok *</label>
+                                                            <select class="form-control" id="sitio" name="sitio" required>
+                                                            <option value="">Select Sitio/Purok</option>
+                                                            <option value="Alangilan">Alangilan</option>
+                                                            <option value="Alijis">Alijis</option>
+                                                            <option value="Bata">Bata</option>
+                                                            <option value="Cabug">Cabug</option>
+                                                            <option value="Estefania">Estefania</option>
+                                                            <option value="Felisa">Felisa</option>
+                                                            <option value="Granada">Granada</option>
+                                                            <option value="Handumanan">Handumanan</option>
+                                                            <option value="Mandalagan">Mandalagan</option>
+                                                            <option value="Mansilingan">Mansilingan</option>
+                                                            <option value="Montevista">Montevista</option>
+                                                            <option value="Pahanocoy">Pahanocoy</option>
+                                                            <option value="Punta Taytay">Punta Taytay</option>
+                                                            <option value="Singcang-Airport">Singcang-Airport</option>
+                                                            <option value="Sum-ag">Sum-ag</option>
+                                                            <option value="Taculing">Taculing</option>
+                                                            <option value="Tangub">Tangub</option>
+                                                            <option value="Villamonte">Villamonte</option>
+                                                            <option value="Vista Alegre">Vista Alegre</option>
+                                                        </select>                                                        
+                                                    </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="barangay">Barangay *</label>
+                                                            <select class="form-control" id="barangay" name="barangay" required>
+                                                                <option value="">Select Barangay</option>
+                                                                <option value="Alangilan">Alangilan</option>
+                                                                <option value="Alijis">Alijis</option>
+                                                                <option value="Bata">Bata</option>
+                                                                <option value="Cabug">Cabug</option>
+                                                                <option value="Estefania">Estefania</option>
+                                                                <option value="Felisa">Felisa</option>
+                                                                <option value="Granada">Granada</option>
+                                                                <option value="Handumanan">Handumanan</option>
+                                                                <option value="Mandalagan">Mandalagan</option>
+                                                                <option value="Mansilingan">Mansilingan</option>
+                                                                <option value="Montevista">Montevista</option>
+                                                                <option value="Pahanocoy">Pahanocoy</option>
+                                                                <option value="Punta Taytay">Punta Taytay</option>
+                                                                <option value="Singcang-Airport">Singcang-Airport</option>
+                                                                <option value="Sum-ag">Sum-ag</option>
+                                                                <option value="Taculing">Taculing</option>
+                                                                <option value="Tangub">Tangub</option>
+                                                                <option value="Villamonte">Villamonte</option>
+                                                                <option value="Vista Alegre">Vista Alegre</option>
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-2">
-                                                    <div class="form-group">
-                                                        <label for="philhealth_id">PhilHealth ID *</label>
-                                                        <input type="number" class="form-control" id="philhealth_id" name="philhealth_id" required>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="household_number">Household Number *</label>
+                                                            <input type="number" class="form-control" id="household_number" name="household_number" required>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-1">
-                                                    <div class="form-group">
-                                                        <label for="membership">Membership</label>
-                                                        <select class="form-control" id="membership" name="membership" required onchange="checkMembership()">
-                                                            <option value="">Select Membership</option>
-                                                            <option value="Spouse">Member</option>
-                                                            <option value="Parent">Dependent</option>
-                                                        </select>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="renter">Renter (Y/N) *</label>
+                                                                <select class="form-control" id="renter" name="renter" required>
+                                                                    <option value="">Select</option>
+                                                                    <option value="Renter_Yes">Yes</option>
+                                                                    <option value="Renter_no">No</option>
+                                                                </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="renter_months">If Yes, No. of Months </label>
+                                                            <input type="number" class="form-control" id="montrenter_monthshs" name="renter_months">
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-2">
-                                                    <div class="form-group">
-                                                        <label for="wra">WRA </label>
-                                                        <input type="date" class="form-control" id="wra" name="wra">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <div class="form-group">
-                                                        <label for="education_occupation">Educational Attainment *</label>
-                                                        <select class="form-control" id="education_occupation" name="education_occupation" placeholder="Select Educational Attainment"required>
-                                                            <option value="Alangilan">None</option>
-                                                            <option value="Alijis">Elementary Level</option>
-                                                            <option value="Bata">Elementary Graduate</option>
-                                                            <option value="Cabug">High School Level</option>
-                                                            <option value="Estefania">High School Graduate</option>
-                                                            <option value="Felisa">Vocational</option>
-                                                            <option value="Granada">College Level</option>
-                                                            <option value="Handumanan">College Graduate</option>
-                                                            <option value="Mandalagan">Postgraduate</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <div class="form-group">
-                                                        <label for="wra">Occupation *</label>
-                                                        <input type="text" class="form-control" id="wra" name="wra">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <div class="form-group">
-                                                        <label for="education_occupation">Remarks *</label>
-                                                        <select class="form-control" id="education_occupation" name="education_occupation" placeholder="Select Educational Attainment"required>
-                                                            <option value="Alangilan">None</option>
-                                                            <option value="Alijis">SAM - Severe Acute Malnutrition</option>
-                                                            <option value="Bata">Mam - Moderate Acute Malnutrition</option>
-                                                            <option value="Cabug">ST - Stunted</option>
-                                                            <option value="Estefania">UP - for updating</option>
-                                                            <option value="Felisa">Transfer of Residence</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="cold-md-2">
-                                                    <button classs ="btn btn-danger remove_member_btn">Remove</button>
-                                                </div>
-                                                
-                                            </div>');
-                                });
-                                });
-                            </script>
 
-                <input type="submit" name="submit" id="submit" class="btn-common input-btn" value="Submit">
-                
-            </div>
-        </div>
-    </div>
-</div>
+                                                <h3 style="opacity: 0.5;">Social Eoconomic Status *</h3>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="nhts_information">
+                                                            <p style="font-size: 1rem;"> </p>
+                                                            <input type="radio" id="nhts_4ps" name="nhts_status" value="nhts_4ps">
+                                                            <label for="nhts_4ps" style="margin-right: 25px; font-size: 15px;">NHTS 4ps</label><br>
+                                                            <input type="radio" id="nhts_non4ps" name="nhts_status" value="nhts_non4ps">
+                                                            <label for="nhts_non4ps" style="font-size: 15px;">NHTS Non-4ps</label><br>
+                                                            <input type="radio" id="non_nhts" name="nhts_status" value="non_nhts">
+                                                            <label for="non_nhts" style="font-size: 15px;">Non-NHTS</label><br><br>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="ip_household_information">
+                                                            <p style="font-size: 1rem;"> </p>
+                                                            <input type="radio" id="ip_household" name="nhts_status" value="ip_household">
+                                                            <label for="ip_household" style="margin-right: 25px; font-size: 15px;">IP Household</label><br>
+                                                            <input type="radio" id="non_ip_household" name="nhts_status" value="non_ip_household">
+                                                            <label for="non_ip_household" style="font-size: 15px;">Non-IP Household</label><br><br>
 
-    <?php
-    include("includes/footer.php");
-    ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <br>
+                                                <div class="row">
+                                                <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="tribe">if IP Household, indicate TRIBE: </label>
+                                                            <input type="text" class="form-control" id="tribe" name="tribe">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="water_source">Type of Water Source *</label>
+                                                            <select class="form-control" id="water_source" name="water_source" required>
+                                                                <option value="">Select Water Source</option>
+                                                                <option value="point_source">Level I - Point Source</option>
+                                                                <option value="communal_faucet">Level II - Communal Faucet</option>
+                                                                <option value="individual_connection">Level III - Individual Connection</option>
+                                                                <option value="other_source">Others - For doubtful sources, open dug well, etc.</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="toilet_facility">Type of Toilet Facility *</label>
+                                                            <select class="form-control" id="toilet_facility" name="toilet_facility" required>
+                                                                <option value="">Select Toilet Facility</option>
+                                                                <option value="pour_flash">A - Pour/Flush type connection to septic tank</option>
+                                                                <option value="flush_toilet">B - Flush Toilet connection to septic tank and to sewage system</option>
+                                                                <option value="ventilated_pit">C - Ventilated Pit (VIP) Latrine</option>
+                                                                <option value="water_sealed">D - Water-Sealed Toilet</option>
+                                                                <option value="open_hung">E - Over Hung latrine</option>
+                                                                <option value="open_pit">F - Open Pit Latrine</option>
+                                                                <option value="without_toilet">G - Without Toilet</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="waste_management">Type of Waste Management *</label>
+                                                            <select class="form-control" id="waste_management" name="waste_management" required>
+                                                                <option value="">Select Waste Management</option>
+                                                                <option value="waste_segregation">A - Waste Segregation</option>
+                                                                <option value="backyard_composting">B - Backyard Composting</option>
+                                                                <option value="recycle_reuse">C - Recycled/Reuse</option>
+                                                                <option value="collected">D - Collected by City/Municipal Collection and Disposal System</option>
+                                                                <option value="other_management">E - Others (Burning/Burying)</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="blind_drainage">With Blind Drainage *</label>
+                                                            <select class="form-control" id="blind_drainage" name="blind_drainage" required>
+                                                                <option value="">Select Barangay</option>
+                                                                <option value="yes_blind_drainage">Yes</option>
+                                                                <option value="no_blind_drainage">No</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <br>
+                                                <br>
+                                                <h3 style="opacity: 0.5;">Business Information</h3>
+                                                <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="business_name">Business Name </label>
+                                                        <input type="text" class="form-control" id="business_name" name="business_name">
+                                                    </div>
+                                                </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="business_address">Business Address </label>
+                                                            <input type="text" class="form-control" id="business_address" name="business_address">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div id="show_member">
+                                                            <div class="container">
+                                                                <div class="card">
+                                                                <div class="card-header">
+                                                                        <div class="left-content">
+                                                                            <h3 style="opacity: 0.5;">Choose Household Member</h3>
+                                                                        </div>
+                                                                        <div class="right-content">
+                                                                            <!-- Search bar -->
+                                                                            <input type="text" id="searchInput" class="search-bar" placeholder="Search by name...">
+                                                                        </div>
+                                                                        </div>
+                                                                    <div class="card-body">
+                                                                        <table class="table">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th></th>
+                                                                                    <th>First Name</th>
+                                                                                    <th>Middle Name</th>
+                                                                                    <th>Last Name</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <?php
+                                                                                // Check if there are results
+                                                                                if (mysqli_num_rows($result) > 0) {
+                                                                                    // Output data of each row
+                                                                                    while ($row = mysqli_fetch_assoc($result)) {
+                                                                                        echo "<tr>";
+                                                                                        echo "<td><input type='checkbox' name='resident_id[]' value='{$row['id']}'></td>";
+                                                                                        echo "<td>{$row['firstname']}</td>";
+                                                                                        echo "<td>{$row['middlename']}</td>";
+                                                                                        echo "<td>{$row['lastname']}</td>";
+                                                                                        echo "</tr>";
+                                                                                    }
+                                                                                } else {
+                                                                                    echo "<tr><td colspan='4'>No residents found</td></tr>";
+                                                                                }
+
+                                                                                // Close connection
+                                                                                mysqli_close($conn);
+                                                                                ?>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div style="display: flex; justify-content: center;">
+                                                            <input type="submit" name="submit" id="submit" class="btn btn-primary" value="Submit" style="width: 200px;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+<?php
+include("includes/footer.php");
+?>
+
+<!-- JavaScript to handle search functionality -->
+<script>
+        const searchInput = document.getElementById('searchInput');
+        const tableRows = document.querySelectorAll('.table tbody tr');
+
+        searchInput.addEventListener('input', function () {
+            const searchValue = this.value.toLowerCase().trim();
+            tableRows.forEach(row => {
+                const firstName = row.cells[1].textContent.toLowerCase();
+                const middleName = row.cells[2].textContent.toLowerCase();
+                const lastName = row.cells[3].textContent.toLowerCase();
+                if (firstName.includes(searchValue) || middleName.includes(searchValue) || lastName.includes(searchValue)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>
