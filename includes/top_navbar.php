@@ -10,7 +10,7 @@
             background-color: #143A1F;
             padding: 2px;
             font-size: 12px;
-            height: 26px;
+            height: 28px;
             font-family: Arial, Helvetica, sans-serif;
             /* Added responsive styles */
             max-width: 100%; /* Ensures the container doesn't overflow */
