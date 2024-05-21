@@ -177,11 +177,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
                         <div class="card-body">
                             <div class="container" id="container_content">
                                 <div class="logo">
-                                    <img class="left-logo" src="elements/Bacolod.png" alt="Left Logo">
+                                    <img class="left-logo" src="elements/barangay8logo.png" alt="Left Logo">
                                     <div class="logo-text">
-                                        <h2>Barangay Resident Registration Form</h2>
+                                        <h2>Baranggay Resident Registration Form</h2>
                                     </div>
-                                    <img class="right-logo" src="elements/NegOcc2.jpg" alt="Right Logo">
+                                    
                                 </div>
                             </div>
                             <div class="banner">
