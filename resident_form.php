@@ -262,55 +262,96 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
                                     <input type="radio" id="female" name="gender" value="female">
                                     <label for="female" style="font-size: 20px;">Female</label>
                                 </div>
+                                <br/>
                                 <!-- Nationality and Civil Status -->
-                                <div class="dropdown">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="nationality">Nationality *</label>
-                                                <select class="form-control" id="nationality" name="nationality" required>
-                                                    <option value="">Select Nationality</option>
-                                                    <option value="filipino">Filipino</option>
-                                                    <option value="american">American</option>
-                                                    <option value="british">British</option>
-                                                    <option value="chinese">Chinese</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="civil_status">Civil Status *</label>
-                                                <select class="form-control" id="civil_status" name="civil_status" required>
-                                                    <option value="">Select Civil Status</option>
-                                                    <option value="single">Single</option>
-                                                    <option value="married">Married</option>
-                                                    <option value="widowed">Widowed</option>
-                                                    <option value="separated">Separated</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="nationality">Nationality *</label>
+                                    <select class="form-control" id="nationality" name="nationality" required>
+                                        <option value="">Select Nationality</option>
+                                        <option value="filipino">Filipino</option>
+                                        <option value="american">American</option>
+                                        <option value="british">British</option>
+                                        <option value="chinese">Chinese</option>
+                                    </select>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="relationship">Relationship *</label>
-                                            <select class="form-control" id="relationship" name="relationship" required onchange="checkRelationship()">
-                                                <option value="">Select Relationship</option>
-                                                <option value="Spouse">Spouse</option>
-                                                <option value="Parent">Parent</option>
-                                                <option value="Child">Child</option>
-                                                <option value="Sibling">Sibling</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="philhealth_id">PhilHealth ID *</label>
-                                            <input type="number" class="form-control" id="philhealth_id" name="philhealth_id" required>
-                                        </div>
-                                    </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="civil_status">Civil Status *</label>
+                                    <select class="form-control" id="civil_status" name="civil_status" required>
+                                        <option value="">Select Civil Status</option>
+                                        <option value="single">Single</option>
+                                        <option value="married">Married</option>
+                                        <option value="widowed">Widow/Widower</option>
+                                        <option value="separated">Live In</option>
+                                    </select>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="philhealth_id">PhilHealth ID *</label>
+                                    <input type="number" class="form-control" id="philhealth_id" name="philhealth_id" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="membership">Philhealth Membership *</label>
+                                    <select class="form-control" id="membership" name="membership" required onchange="checkMembership()">
+                                        <option value="">Select Membership</option>
+                                        <option value="Spouse">Member</option>
+                                        <option value="Parent">Dependent</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="wra">WRA Last Menstruation Period </label>
+                                        <input type="date" class="form-control" id="wra" name="wra">
+                                    </div>
+                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="education_occupation">Educational Attainment *</label>
+                                    <select class="form-control" id="education_occupation" name="education_occupation" placeholder="Select Educational Attainment"required>
+                                        <option value="Alangilan">None</option>
+                                        <option value="Alijis">Elementary Level</option>
+                                        <option value="Bata">Elementary Graduate</option>
+                                        <option value="Cabug">High School Level</option>
+                                        <option value="Estefania">High School Graduate</option>
+                                        <option value="Felisa">Vocational</option>
+                                        <option value="Granada">College Level</option>
+                                        <option value="Handumanan">College Graduate</option>
+                                        <option value="Mandalagan">Postgraduate</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="wra">Occupation *</label>
+                                        <input type="text" class="form-control" id="wra" name="wra">
+                                    </div>
+                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="education_occupation">Remarks Nutrition Status *</label>
+                                    <select class="form-control" id="education_occupation" name="education_occupation" placeholder="Select Educational Attainment"required>
+                                        <option value="Alangilan">None</option>
+                                        <option value="Alijis">SAM - Severe Acute Malnutrition</option>
+                                        <option value="Bata">MAM - Moderate Acute Malnutrition</option>
+                                        <option value="Cabug">ST - Stunted</option>
+                                        <option value="Estefania">UP - for updating</option>
+                                        <option value="Felisa">Transfer of Residence</option>
+                                    </select>
+                                </div>
+                            </div>
 
                                 <!-- Contact Information form -->
                                 <h3 style="opacity: 0.5;">Contact Information</h3>
@@ -427,6 +468,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
                                         </div>
                                     </div>
                                 </div>
+                                <br/>
+                                <br/>
                             <div style="display: flex; justify-content: center;">
                                 <input type="submit" name="submit" id="submit" class="btn btn-primary" value="Submit" style="width: 200px;">
                         </div>
@@ -436,6 +479,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
         </div>
     </div>
 </div>
+<br/>
+<br/>
 
     <?php
     include("includes/footer.php");
