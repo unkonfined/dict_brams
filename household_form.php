@@ -335,9 +335,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
 
                         </head>
                         <body>
-                            <?php
+                        <?php
                             include("includes/top_navbar.php");
+                            include("includes/bot_navbar.php");
                             ?>
+
 
                         <div class="container"> 
                             <div class="row">

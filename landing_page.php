@@ -67,6 +67,8 @@
 </body>
 
 <?php
-    include("includes/footer.php");
+    include("includes/top_navbar.php");
+    include("includes/bot_navbar.php");
     ?>
+
 </html>

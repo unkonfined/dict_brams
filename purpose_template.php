@@ -1,5 +1,7 @@
 <?php
+<?php
 include("includes/top_navbar.php");
+include("includes/bot_navbar.php");
 include("includes/header.php");
 
 // Initialize resident ID variable

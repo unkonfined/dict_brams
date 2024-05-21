@@ -1,6 +1,7 @@
 <?php
 // Include necessary files
 include("includes/top_navbar.php");
+include("includes/bot_navbar.php");
 
 // Error reporting for debugging
 error_reporting(E_ALL);
