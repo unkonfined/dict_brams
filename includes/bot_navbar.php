@@ -19,7 +19,7 @@
     font-family: Arial, Helvetica, sans-serif;
     height: 65px;
     font-size: 15px;
-    font-weight: bold;
+    
 }
 
 /* Clear floats (clearfix hack) */
@@ -47,7 +47,7 @@
     <button style="width:10%">LIST OF RESIDENTS</button>
     <button style="width:10%">MENU OF DOCUMENTS</button>
     <button style="width:10%">LOG IN</button>
-    <button style="width:10%">ABOUT</button>
+    <button style="width:10%">ABOUT US</button>
     <button style="width:15%"></button>
 </div>
 
