@@ -102,43 +102,44 @@ $purpose = isset($_GET['purpose']) ? $_GET['purpose'] : '';
                         </div>
                     </div>
                     <div class="menu">
-                            <?php if ($purpose === 'certofresidency'): ?>
-                                <!-- Menu for certofresidency purpose -->
-                                <div class="menurow">
-                                    <a href="cert_of_residency.php?resident_id=<?php echo $resident_id; ?>&purpose=Renewal of PWD ID" target="_blank">Renewal of PWD ID</a>
-                                    <a href="cert_of_residency.php?resident_id=<?php echo $resident_id; ?>&purpose=Renewal of Senior ID" target="_blank">Renewal of Senior ID</a>
-                                    <a href="cert_of_residency.php?resident_id=<?php echo $resident_id; ?>&purpose=Scholarship Requirement" target="_blank">Scholarship Requirement</a>
-                                </div>  
+                                <?php if ($purpose === 'certofresidency'): ?>
+                                    <!-- Menu for certofresidency purpose -->
+                                    <div class="menurow">
+                                        <a href="#" onclick="printDocument('cert_of_residency.php?resident_id=<?php echo $resident_id; ?>&purpose=Renewal of PWD ID')">Renewal of PWD ID</a>
+                                        <a href="#" onclick="printDocument('cert_of_residency.php?resident_id=<?php echo $resident_id; ?>&purpose=Renewal of Senior ID')">Renewal of Senior ID</a>
+                                        <a href="#" onclick="printDocument('cert_of_residency.php?resident_id=<?php echo $resident_id; ?>&purpose=Scholarship Requirement')">Scholarship Requirement</a>
+                                    </div>  
                                 <?php elseif ($purpose === 'brgyclearance'): ?>
-                                <!-- Menu for brgyclearance purpose -->
-                                <div class="menurow">
-                                    <a href="brgy_clearance.php?resident_id=<?php echo $resident_id; ?>&purpose=Loan" target="_blank">Loan</a>
-                                    <a href="brgy_clearance.php?resident_id=<?php echo $resident_id; ?>&purpose=Bank" target="_blank">Bank</a>
-                                    <a href="brgy_clearance.php?resident_id=<?php echo $resident_id; ?>&purpose=Work Immersion" target="_blank">Work Immersion</a>
-                                    <a href="brgy_clearance.php?resident_id=<?php echo $resident_id; ?>&purpose=TIN ID" target="_blank">TIN ID</a>
-                                    <a href="brgy_clearance.php?resident_id=<?php echo $resident_id; ?>&purpose=Postal ID" target="_blank">Postal ID</a>
-                                    <a href="brgy_clearance.php?resident_id=<?php echo $resident_id; ?>&purpose=Philsys ID" target="_blank">Philsys ID</a>
-                                </div>
+                                    <!-- Menu for brgyclearance purpose -->
+                                    <div class="menurow">
+                                        <a href="#" onclick="printDocument('brgy_clearance.php?resident_id=<?php echo $resident_id; ?>&purpose=Loan')">Loan</a>
+                                        <a href="#" onclick="printDocument('brgy_clearance.php?resident_id=<?php echo $resident_id; ?>&purpose=Bank')">Bank</a>
+                                        <a href="#" onclick="printDocument('brgy_clearance.php?resident_id=<?php echo $resident_id; ?>&purpose=Work Immersion')">Work Immersion</a>
+                                        <a href="#" onclick="printDocument('brgy_clearance.php?resident_id=<?php echo $resident_id; ?>&purpose=TIN ID')">TIN ID</a>
+                                        <a href="#" onclick="printDocument('brgy_clearance.php?resident_id=<?php echo $resident_id; ?>&purpose=Postal ID')">Postal ID</a>
+                                        <a href="#" onclick="printDocument('brgy_clearance.php?resident_id=<?php echo $resident_id; ?>&purpose=Philsys ID')">Philsys ID</a>
+                                    </div>
                                 <?php elseif ($purpose === 'certofindigency'): ?>
-                                <!-- Menu for the certofindigency purpose -->
-                                <div class="menurow">
-                                    <a href="cert_of_indigency.php?resident_id=<?php echo $resident_id; ?>&purpose=Educational Assistance" target="_blank">Educational Assistance</a>
-                                    <a href="cert_of_indigency.php?resident_id=<?php echo $resident_id; ?>&purpose=School Requirement" target="_blank">School Requirement</a>
-                                    <a href="cert_of_indigency.php?resident_id=<?php echo $resident_id; ?>&purpose=Medical Assistance" target="_blank">Medical Assistance</a>
-                                    <a href="cert_of_indigency.php?resident_id=<?php echo $resident_id; ?>&purpose=Burial Assistance" target="_blank">Burial Assistance</a>
-                                    <a href="cert_of_indigency.php?resident_id=<?php echo $resident_id; ?>&purpose=Financial Assistance" target="_blank">Financial Assistance</a>
-                                </div>
+                                    <!-- Menu for the certofindigency purpose -->
+                                    <div class="menurow">
+                                        <a href="#" onclick="printDocument('cert_of_indigency.php?resident_id=<?php echo $resident_id; ?>&purpose=Educational Assistance')">Educational Assistance</a>
+                                        <a href="#" onclick="printDocument('cert_of_indigency.php?resident_id=<?php echo $resident_id; ?>&purpose=School Requirement')">School Requirement</a>
+                                        <a href="#" onclick="printDocument('cert_of_indigency.php?resident_id=<?php echo $resident_id; ?>&purpose=Medical Assistance')">Medical Assistance</a>
+                                        <a href="#" onclick="printDocument('cert_of_indigency.php?resident_id=<?php echo $resident_id; ?>&purpose=Burial Assistance')">Burial Assistance</a>
+                                        <a href="#" onclick="printDocument('cert_of_indigency.php?resident_id=<?php echo $resident_id; ?>&purpose=Financial Assistance')">Financial Assistance</a>
+                                    </div>
                                 <?php elseif ($purpose === 'certification'): ?>
-                                <!-- Menu for the certification purpose -->
-                                <div class="menurow">
-                                    <a href="certification.php?resident_id=<?php echo $resident_id; ?>&purpose=1st Time Job Seeker" target="_blank">1st Time Job Seeker</a>
-                                    <a href="certification.php?resident_id=<?php echo $resident_id; ?>&purpose=Educational Assistance" target="_blank">Educational Assistance</a>
-                                    <a href="certification.php?resident_id=<?php echo $resident_id; ?>&purpose=Scholarship" target="_blank">Scholarship</a>
-                                    <a href="certification.php?resident_id=<?php echo $resident_id; ?>&purpose=Comelec Registraton" target="_blank">Comelec Registraton</a>
-                                    <a href="certification.php?resident_id=<?php echo $resident_id; ?>&purpose=Applying Senior Citizen ID" target="_blank">Applying Senior Citizen ID</a>
-                                    <a href="certification.php?resident_id=<?php echo $resident_id; ?>&purpose=Applying for CENECO" target="_blank">Applying for CENECO</a>
-                                </div>
-                            <?php endif; ?>
+                                    <!-- Menu for the certification purpose -->
+                                    <div class="menurow">
+                                        <a href="#" onclick="printDocument('certification.php?resident_id=<?php echo $resident_id; ?>&purpose=1st Time Job Seeker')">1st Time Job Seeker</a>
+                                        <a href="#" onclick="printDocument('certification.php?resident_id=<?php echo $resident_id; ?>&purpose=Educational Assistance')">Educational Assistance</a>
+                                        <a href="#" onclick="printDocument('certification.php?resident_id=<?php echo $resident_id; ?>&purpose=Scholarship')">Scholarship</a>
+                                        <a href="#" onclick="printDocument('certification.php?resident_id=<?php echo $resident_id; ?>&purpose=Comelec Registraton')">Comelec Registraton</a>
+                                        <a href="#" onclick="printDocument('certification.php?resident_id=<?php echo $resident_id; ?>&purpose=Applying Senior Citizen ID')">Applying Senior Citizen ID</a>
+                                        <a href="#" onclick="printDocument('certification.php?resident_id=<?php echo $resident_id; ?>&purpose=Applying for CENECO')">Applying for CENECO</a>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -151,6 +152,22 @@ $purpose = isset($_GET['purpose']) ? $_GET['purpose'] : '';
 <br><br>
 <br><br>
 <br><br>
+
+<script>
+    function printDocument(url) {
+        // Open the URL in a hidden iframe
+        var iframe = document.createElement('iframe');
+        iframe.setAttribute('style', 'display:none;');
+        document.body.appendChild(iframe);
+        iframe.src = url;
+
+        // Wait for the iframe to load the document
+        iframe.onload = function () {
+            // Print the document
+            iframe.contentWindow.print();
+        };
+    }
+</script>
 
 <?php
 include("includes/footer.php");
