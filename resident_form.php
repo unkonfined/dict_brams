@@ -192,6 +192,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
                             <form method="POST" id="combined_form">
                                 <!-- Personal Information fields -->
                                 <h3 style="opacity: 0.5;">Personal Information</h3>
+                                 <!-- Attach Photo -->
+                                <p>Attach Photo *</p>
+                                <input type="file" id="photo" name="photo" accept="image/*">
+                                <br>
+                                <br>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
