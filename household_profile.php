@@ -287,6 +287,7 @@ $result = mysqli_query($conn, $sql);
 
   </style>
 </head>
+<title>BRAMS</title>
 <body>
 
 <div class="topnav">

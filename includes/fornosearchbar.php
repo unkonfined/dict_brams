@@ -140,16 +140,6 @@
             echo "<p>PHILIPPINE STANDARD TIME: $completeDateTime</p>";
         ?>
     </div>
-
-    <div class="topnav">
-        <img src="elements/dict_logo2.png" alt="Company Logo">
-        <div class="search-container">
-            <form id="searchform" method="GET">
-                <input type="text" id="search-bar" name="search" placeholder="Search by name...">
-            </form>
-        </div>
-    </div>
-
     <div class="btn-group-nav">
         <form action="Home.php" method="get">
             <button type="submit">HOME</button>
@@ -164,7 +154,7 @@
             <button type="submit">LIST OF RESIDENTS</button>
         </form>
         <form action="MenuOfDocuments.php" method="get">
-            <button type="submit">HOUSEHOLD PROFILE </button>
+            <button type="submit">Household Profile</button>
         </form>
     </div>
 </body>

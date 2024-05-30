@@ -1,7 +1,6 @@
 <?php
 // Include necessary files
-include("includes/top_navbar.php");
-
+include("includes/fornosearchbar.php");
 // Error reporting for debugging
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -96,6 +95,7 @@ if(isset($_GET['resident_id'])) {
 mysqli_close($conn);
 ?>
 
+<title>Edit Information</title>
 
 
 <style>
@@ -196,18 +196,19 @@ mysqli_close($conn);
                         <div class="card">
                             <div class="card-header">
                                 <h4>
-                                    <a href="Home.php" class="btn btn-primary float-start">Back</a>
+                                    <a href="resident_profile.php" class="btn btn-primary float-start">Back</a>
                                 </h4>
                             </div>
                             <div class="card-body">
                                 <div class="container" id="container_content">
                                     <div class="logo">
-                                        <img class="left-logo" src="elements/Bacolod.png" alt="Left Logo">
+                                        <img class="left-logo" src="elements/barangay8logo.png" alt="Left Logo">
                                         <div class="logo-text">
-                                            <h2>Barangay Resident Registration Form</h2>
+                                            <h2>Baranggay Resident Registration Form</h2>
                                         </div>
-                                        <img class="right-logo" src="elements/NegOcc2.jpg" alt="Right Logo">
+                                        
                                     </div>
+                                </div>
                                     <div class="banner">
                                         <div class="oval"></div>
                                         <div class="banner-text">Please provide the information needed</div>
@@ -325,24 +326,65 @@ mysqli_close($conn);
                                         <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="relationship">Relationship *</label>
-                                                <select class="form-control" id="relationship" name="relationship" required onchange="checkRelationship()">
-                                                    <option value="">Select Relationship</option>
-                                                    <option value="Spouse" <?php if($row['relationship'] == 'Spouse') echo 'selected'; ?>>Spouse</option>
-                                                    <option value="Parent" <?php if($row['relationship'] == 'Parent') echo 'selected'; ?>>Parent</option>
-                                                    <option value="Child" <?php if($row['relationship'] == 'Child') echo 'selected'; ?>>Child</option>
-                                                    <option value="Sibling" <?php if($row['relationship'] == 'Sibling') echo 'selected'; ?>>Sibling</option>
-                                                </select>
+                                                <label for="philhealth_id">PhilHealth ID *</label>
+                                                <input type="number" class="form-control" id="philhealth_id" name="philhealth_id" required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="philhealth_id">PhilHealth ID *</label>
-                                                <input type="number" class="form-control" id="philhealth_id" name="philhealth_id" value="<?php echo $row['philhealth_id']; ?>" required>
-
+                                                <label for="membership">Philhealth Membership *</label>
+                                                <select class="form-control" id="membership" name="membership" required onchange="checkMembership()">
+                                                    <option value="">Select Membership</option>
+                                                    <option value="Spouse">Member</option>
+                                                    <option value="Parent">Dependent</option>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="wra">WRA Last Menstruation Period </label>
+                                                    <input type="date" class="form-control" id="wra" name="wra">
+                                                </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="education_occupation">Educational Attainment *</label>
+                                                <select class="form-control" id="education_occupation" name="education_occupation" placeholder="Select Educational Attainment"required>
+                                                    <option value="Alangilan">None</option>
+                                                    <option value="Alijis">Elementary Level</option>
+                                                    <option value="Bata">Elementary Graduate</option>
+                                                    <option value="Cabug">High School Level</option>
+                                                    <option value="Estefania">High School Graduate</option>
+                                                    <option value="Felisa">Vocational</option>
+                                                    <option value="Granada">College Level</option>
+                                                    <option value="Handumanan">College Graduate</option>
+                                                    <option value="Mandalagan">Postgraduate</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="wra">Occupation *</label>
+                                                    <input type="text" class="form-control" id="wra" name="wra">
+                                                </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="education_occupation">Remarks Nutrition Status *</label>
+                                                <select class="form-control" id="education_occupation" name="education_occupation" placeholder="Select Educational Attainment"required>
+                                                    <option value="Alangilan">None</option>
+                                                    <option value="Alijis">SAM - Severe Acute Malnutrition</option>
+                                                    <option value="Bata">MAM - Moderate Acute Malnutrition</option>
+                                                    <option value="Cabug">ST - Stunted</option>
+                                                    <option value="Estefania">UP - for updating</option>
+                                                    <option value="Felisa">Transfer of Residence</option>
+                                                </select>
+                                            </div>
+                                        </div>
 
 
                                     <!-- Contact Information form -->

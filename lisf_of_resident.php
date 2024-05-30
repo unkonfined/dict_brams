@@ -64,77 +64,62 @@ $result = mysqli_query($conn, $sql);
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
   <title>List Of Residents</title>
-
   <style>
     @media (min-width: 576px) {
       .container {
         max-width: 540px;
       }
     }
-
     @media (min-width: 768px) {
       .container {
         max-width: 720px;
       }
     }
-
     @media (min-width: 992px) {
       .container {
         max-width: 960px;
       }
     }
-
     @media (min-width: 1200px) {
       .container {
         max-width: 1140px;
       }
     }
-
-    .container{
+    .container {
       width: auto;
       height: 500px;
       margin-top: 40px;
     }
-
     .card {
       margin-bottom: 20px;
     }
-
     .card-header {
       padding: 1rem;
     }
-
     .card-body {
       padding: 1rem;
     }
-
     .table {
       width: 100%;
       margin-bottom: 1rem;
       background-color: transparent;
     }
-
     .table th,
     .table td {
       padding: 0.75rem;
       vertical-align: top;
       border-top: 1px solid #dee2e6;
     }
-
     .float-end {
       float: right;
     }
-
     .dropdown {
       position: relative;
     }
-
     .dropdown-toggle::after {
       display: none;
     }
-
     .dropdown-menu {
       position: absolute;
       top: 100%;
@@ -154,11 +139,9 @@ $result = mysqli_query($conn, $sql);
       border: 1px solid rgba(0, 0, 0, 0.15);
       border-radius: 0.25rem;
     }
-
     .dropdown-menu.show {
       display: block;
     }
-
     .dropdown-menu a {
       display: block;
       padding: 0.25rem 1.5rem;
@@ -170,23 +153,19 @@ $result = mysqli_query($conn, $sql);
       background-color: transparent;
       border: 0;
     }
-
     .dropdown-menu a:hover,
     .dropdown-menu a:focus {
       color: #fff;
       text-decoration: none;
       background-color: #007bff;
     }
-
     .dropdown-menu a:active {
       color: #fff;
       background-color: #0056b3;
     }
-
     .dropdown-item {
       width: 100%;
     }
-
     .dropdown-menu::before {
       position: absolute;
       top: -0.5rem;
@@ -201,7 +180,6 @@ $result = mysqli_query($conn, $sql);
       border-bottom: 0;
       border-left: 0.5rem solid transparent;
     }
-
     .dropdown-menu::after {
       position: absolute;
       bottom: -0.5rem;
@@ -216,109 +194,34 @@ $result = mysqli_query($conn, $sql);
       border-bottom: 0.5rem solid #fff;
       border-left: 0.5rem solid transparent;
     }
-
     .dropdown-menu a.delete {
       background-color: #dc3545;
     }
-
     .dropdown-menu a.delete:hover,
     .dropdown-menu a.delete:focus {
       background-color: #c82333;
     }
-
     .dropdown-menu a.delete:active {
       background-color: #bd2130;
     }
-
     * {
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-
-        .topnav {
-            overflow: hidden;
-            background-color: #D8F1B9;
-            padding: 10px;
-        }
-
-        .topnav img {
-            max-width: 100px;
-            height: auto;
-            float: left;
-        }
-
-        .topnav .search-container {
-            float: right;
-        }
-
-        .topnav input[type=text] {
-            padding: 8px;
-            margin-top: 8px;
-            font-size: 17px;
-            border: none;
-            border-radius: 5px;
-        }
-
-        .topnav .search-container button {
-            padding: 8px 12px;
-            margin-top: 8px;
-            background: #143A1F;
-            color: #fff;
-            font-size: 17px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        @media screen and (max-width: 600px) {
-            .topnav img {
-                float: none;
-                display: block;
-                margin: 0 auto;
-            }
-            
-            .topnav .search-container {
-                float: none;
-                text-align: center;
-                margin-top: 10px;
-            }
-
-            .topnav input[type=text] {
-                width: 80%;
-            }
-
-            .topnav .search-container button {
-                width: 80%;
-            }
-        }
-
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
   </style>
-
 </head>
 <body>
-
-<div class="topnav">
-    <img src="elements/dict_logo2.png" alt="Company Logo">
-    <div class="search-container">
-        <form id="searchform" method="GET">
-            <input type="text" id="search-bar" name="search" placeholder="Search by name...">
-            <!-- <button type="submit"><i class="fa fa-search"></i></button> -->
-        </form>
-    </div>
-</div>
-
 <div class="container">
   <div class="row">
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
           <h4>List Of Residents
-          <a href="resident_form.php" class="btn btn-primary float-end">Upload Information</a>
+          <!-- <a href="resident_form.php" class="btn btn-primary float-end">Upload Information</a> -->
           </h4>
         </div>
         <div class="card-body">
@@ -392,8 +295,6 @@ mysqli_close($conn);
         });
     });
 </script>
-
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>

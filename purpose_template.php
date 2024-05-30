@@ -1,7 +1,5 @@
 <?php
-include("includes/top_navbar.php");
-include("includes/header.php");
-
+include("includes/fornosearchbar.php");
 // Initialize resident ID variable
 $resident_id = "";
 
@@ -37,15 +35,14 @@ $purpose = isset($_GET['purpose']) ? $_GET['purpose'] : '';
     }
 
     .menurow {
-    margin-bottom: 20px;
-    width: 50%; /* Adjust the width of the menu rows */
-    border: 1px solid #ccc; /* Add a border */
-    border-radius: 10px; /* Add rounded corners */
-    background-color: #f9f9f9; /* Add background color */
-    padding: 10px; /* Add padding */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
-}
-
+        margin-bottom: 20px;
+        width: 50%; /* Adjust the width of the menu rows */
+        border: 1px solid #ccc; /* Add a border */
+        border-radius: 10px; /* Add rounded corners */
+        background-color: #f9f9f9; /* Add background color */
+        padding: 10px; /* Add padding */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+    }
 
     .menurow a {
         font-size: x-large;
@@ -88,12 +85,15 @@ $purpose = isset($_GET['purpose']) ? $_GET['purpose'] : '';
     }
 </style>
 
+<title>Purpose Of Document</title>
+
+
 <div class="container">
     <div class="row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <a href="Home.php" class="btn btn-primary float-start">Back</a>
+                    <a href="print_templete.php?resident_id=<?php echo $resident_id; ?>" class="btn btn-primary float-start">Back</a>
                 </div>
                 <div class="container" id="container_content">
                     <div class="logo">

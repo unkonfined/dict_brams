@@ -160,20 +160,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
 
     
 </head>
+
+<title>Registration Form</title>
+
 <body>
     <?php
-    include("includes/top_navbar.php");
+    include("includes/fornosearchbar.php");
     ?>
 
         <div class="container"> 
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
-                        <div class="card-header">
+                        <!-- <div class="card-header">
                             <h4>
                                 <a href="Home.php" class="btn btn-primary">Back</a>
                             </h4>
-                        </div>
+                        </div> -->
                         <div class="card-body">
                             <div class="container" id="container_content">
                                 <div class="logo">

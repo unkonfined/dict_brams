@@ -1,7 +1,5 @@
 <?php
-include("includes/top_navbar.php");
-include("includes/header.php");
-
+include("includes/fornosearchbar.php");
 // Initialize resident ID variable
 $resident_id = "";
 
@@ -17,6 +15,8 @@ if(isset($_GET['resident_id'])) {
 }
 
 ?>
+
+<title>BRAMS</title>
 
 <style>
     /* Base styles */
@@ -72,7 +72,7 @@ if(isset($_GET['resident_id'])) {
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <a href="Home.php" class="btn btn-primary float-start">Back</a>
+                    <a href="resident_profile.php" class="btn btn-primary float-start">Back</a>
                 </div>
                 <div class="container" id="container_content">
                     <div class="logo">
