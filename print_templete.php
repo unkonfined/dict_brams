@@ -1,5 +1,12 @@
 <?php
+<<<<<<< HEAD
 include("includes/fornosearchbar.php");
+=======
+include("includes/top_navbar.php");
+include("includes/bot_navbar.php");
+include("includes/header.php");
+
+>>>>>>> 7641ed1379a96241253a5a265f841ff0a144e3ae
 // Initialize resident ID variable
 $resident_id = "";
 

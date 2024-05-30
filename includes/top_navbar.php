@@ -65,8 +65,9 @@
             text-align: right;
             color: #ffffff;
             background-color: #143A1F;
-            padding: 5px;
-            font-size: 13px;
+            padding: 2px;
+            font-size: 12px;
+            height: 28px;
             font-family: Arial, Helvetica, sans-serif;
             max-width: 100%;
             box-sizing: border-box;
@@ -125,6 +126,14 @@
                 height: auto;
             }
         }
+
+        #headerStyle {
+            background-color: #D8F1B9;
+            max-width: 100%;
+            color: #D8F1B9;
+            height: 10px;
+            font-size: 7px;
+        }
     </style>
 </head>
 <body>
@@ -140,6 +149,7 @@
             echo "<p>PHILIPPINE STANDARD TIME: $completeDateTime</p>";
         ?>
     </div>
+<<<<<<< HEAD
 
     <div class="topnav">
         <img src="elements/dict_logo2.png" alt="Company Logo">
@@ -166,6 +176,10 @@
         <form action="MenuOfDocuments.php" method="get">
             <button type="submit">HOUSEHOLD PROFILE </button>
         </form>
+=======
+    <div id="headerStyle">
+        <p>LOWER STYLE</p>
+>>>>>>> 7641ed1379a96241253a5a265f841ff0a144e3ae
     </div>
 </body>
 </html>

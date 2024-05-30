@@ -165,24 +165,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
 
 <body>
     <?php
+<<<<<<< HEAD
     include("includes/fornosearchbar.php");
+=======
+    include("includes/top_navbar.php");
+    include("includes/bot_navbar.php");
+>>>>>>> 7641ed1379a96241253a5a265f841ff0a144e3ae
     ?>
 
         <div class="container"> 
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
+<<<<<<< HEAD
                         <!-- <div class="card-header">
                             <h4>
                                 <a href="Home.php" class="btn btn-primary">Back</a>
                             </h4>
                         </div> -->
+=======
+>>>>>>> 7641ed1379a96241253a5a265f841ff0a144e3ae
                         <div class="card-body">
                             <div class="container" id="container_content">
                                 <div class="logo">
                                     <img class="left-logo" src="elements/barangay8logo.png" alt="Left Logo">
                                     <div class="logo-text">
+<<<<<<< HEAD
                                         <h2>Baranggay Resident Registration Form</h2>
+=======
+                                        <h2>BARANGAY RESIDENT REGISTRATION FORM</h2>
+>>>>>>> 7641ed1379a96241253a5a265f841ff0a144e3ae
                                     </div>
                                     
                                 </div>
@@ -195,6 +207,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
                             <form method="POST" id="combined_form">
                                 <!-- Personal Information fields -->
                                 <h3 style="opacity: 0.5;">Personal Information</h3>
+                                 <!-- Attach Photo -->
+                                <p>Attach Photo *</p>
+                                <input type="file" id="photo" name="photo" accept="image/*">
+                                <br>
+                                <br>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">

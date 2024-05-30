@@ -333,9 +333,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
 
                         </head>
                         <body>
+<<<<<<< HEAD
                             <?php
                             include("includes/fornosearchbar.php");
+=======
+                        <?php
+                            include("includes/top_navbar.php");
+                            include("includes/bot_navbar.php");
+>>>>>>> 7641ed1379a96241253a5a265f841ff0a144e3ae
                             ?>
+
 
                         <div class="container"> 
                             <div class="row">

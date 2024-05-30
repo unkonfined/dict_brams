@@ -1,6 +1,12 @@
 <?php
 // Include necessary files
+<<<<<<< HEAD
 include("includes/fornosearchbar.php");
+=======
+include("includes/top_navbar.php");
+include("includes/bot_navbar.php");
+
+>>>>>>> 7641ed1379a96241253a5a265f841ff0a144e3ae
 // Error reporting for debugging
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
