@@ -1,0 +1,37 @@
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Connect to the database
+$conn = mysqli_connect('localhost', 'root', '', 'db_bacolod') or die("Connection Failed: " . mysqli_connect_error());
+
+// Check if resident ID is provided
+if(isset($_GET['resident_id'])) {
+    $resident_id = $_GET['resident_id'];
+
+    // Fetch data using INNER JOIN
+    $sql = "SELECT personal_information.*, emergency_contacts.*, contact_information.*
+            FROM personal_information
+            INNER JOIN emergency_contacts ON personal_information.id = emergency_contacts.personal_id
+            INNER JOIN contact_information ON personal_information.id = contact_information.personal_id
+            WHERE personal_information.id = $resident_id";
+
+    $result = mysqli_query($conn, $sql);
+
+    // Check if data exists
+    if(mysqli_num_rows($result) > 0) {
+        // Fetch and process data as needed
+        $row = mysqli_fetch_assoc($result);
+        // Process retrieved data
+    } else {
+        echo "No resident found with the provided ID.";
+        exit();
+    }
+} else {
+    echo "Resident ID not provided.";
+    exit();
+}
+
+// Close connection
+mysqli_close($conn);
+?>
