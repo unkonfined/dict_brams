@@ -1,1 +1,3 @@
-# dict_brams
+BRAMS 
+
+git clone from Main branch 
